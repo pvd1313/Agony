@@ -1,0 +1,10 @@
+{
+  "Id": "AgonyRadialCraftingTabs",
+  "DisplayName": "RadialTabs",
+  "Author": "PVD",
+  "Version": "0.0.4",
+  "Enable": true,
+  "ForBelowZero": false,
+  "AssemblyName": "AgonyRadialCraftingTabs.dll",
+  "EntryMethod": "Agony.RadialTabs.QMod.Patch"
+}

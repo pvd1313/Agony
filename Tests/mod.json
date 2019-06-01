@@ -1,0 +1,10 @@
+{
+  "Id": "AgonyTests",
+  "DisplayName": "Tests",
+  "Author": "PVD",
+  "Version": "0.0.1",
+  "Enable": true,
+  "ForBelowZero": false,
+  "AssemblyName": "AgonyTests.dll",
+  "EntryMethod": "Agony.Tests.QMod.Patch"
+}

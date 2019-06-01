@@ -1,0 +1,11 @@
+﻿{
+  "Blacklist": // You will not be able to recycle this items.
+  [
+    "Lubricant" // You can find names in 'Items.txt'.
+  ],
+  
+  "Yields": // How much you will receive after scrapping item containing this resource. 1.0 = 100%; 0.0 = 0%
+  {
+    "AcidMushroom": 0.0 // e.g. Battery recycling will not give AcidMushrooms.
+  }
+}

@@ -1,0 +1,11 @@
+﻿
+v0.0.4
+Restored item punch animation when crafting is denied.
+
+v0.0.3
+Added icons auto scaling if too many of them appear.
+
+v0.0.2:
+Fixed: icons can be clicked before animation finished. (thanks robot47 for report)
+Fixed: animations not working properly.
+Removed dependency from AssetTools.

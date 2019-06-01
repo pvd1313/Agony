@@ -1,0 +1,11 @@
+{
+  "Id": "AgonyDefabricator",
+  "DisplayName": "Defabricator",
+  "Author": "PVD",
+  "Version": "0.0.2",
+  "Dependencies": [ "AgonyAssetTools" ],
+  "Enable": true,
+  "ForBelowZero": false,
+  "AssemblyName": "AgonyDefabricator.dll",
+  "EntryMethod": "Agony.Defabricator.QMod.Patch"
+}

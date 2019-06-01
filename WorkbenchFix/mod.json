@@ -1,0 +1,10 @@
+{
+  "Id": "AgonyWorkbenchFix",
+  "DisplayName": "WorkbenchFix",
+  "Author": "PVD",
+  "Version": "0.0.3",
+  "Enable": true,
+  "ForBelowZero": false,
+  "AssemblyName": "AgonyWorkbenchFix.dll",
+  "EntryMethod": "Agony.WorkbenchFix.QMod.Patch"
+}
