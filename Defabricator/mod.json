@@ -2,7 +2,7 @@
   "Id": "AgonyDefabricator",
   "DisplayName": "Defabricator",
   "Author": "PVD",
-  "Version": "0.0.2",
+  "Version": "0.0.6",
   "Dependencies": [ "AgonyAssetTools" ],
   "Enable": true,
   "ForBelowZero": false,
