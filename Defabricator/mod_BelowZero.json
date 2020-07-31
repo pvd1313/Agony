@@ -6,5 +6,5 @@
   "Dependencies": [ "SMLHelper" ],
   "Enable": true,
   "Game": "BelowZero",
-  "AssemblyName": "AgonyDefabricator.dll"
+  "AssemblyName": "Defabricator.dll"
 }

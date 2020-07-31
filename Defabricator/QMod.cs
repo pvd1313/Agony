@@ -7,7 +7,7 @@ using QModManager.API.ModLoading;
 namespace Agony.Defabricator
 {
     [QModCore]
-    internal static class QMod
+    public static class QMod
     {
         [QModPatch]
         public static void Patch()
