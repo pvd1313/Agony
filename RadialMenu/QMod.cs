@@ -7,7 +7,7 @@ using QModManager.Utility;
 namespace Agony.RadialTabs
 {
     [QModCore]
-    internal static class QMod
+    public static class QMod
     {
         [QModPatch]
         public static void Patch()

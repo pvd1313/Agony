@@ -5,5 +5,5 @@
   "Version": "1.0.0",
   "Enable": true,
   "Game": "Subnautica",
-  "AssemblyName": "AgonyRadialCraftingTabs.dll"
+  "AssemblyName": "RadialTabs.dll"
 }
