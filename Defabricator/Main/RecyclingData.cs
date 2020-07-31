@@ -124,7 +124,7 @@ namespace Agony.Defabricator
             private static void LoadRecyclingSprite(TechType originTech, TechType recyclingTech)
             {
                 var originSprite = SpriteManager.Get(originTech);
-                SpriteHandler.Main.RegisterSprite(recyclingTech, originSprite);
+                SpriteManagerWrapper.Set(SpriteManager.Group.Item, recyclingTech.AsString(), originSprite);
             }
 
             private static void LoadRecyclingText(TechType originTech, TechType recyclingTech)
