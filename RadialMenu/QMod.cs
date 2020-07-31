@@ -13,7 +13,7 @@ namespace Agony.RadialTabs
         public static void Patch()
         {
             try
-            {
+            { 
                 var harmony = new Harmony("com.pvd.agony.radialcraftingtabs");
                 harmony.PatchAll(Assembly.GetExecutingAssembly());
             }

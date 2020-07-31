@@ -13,7 +13,7 @@ namespace Agony.Defabricator
         public static void Patch()
         {
             try
-            {
+            { 
                 var harmony = new Harmony("com.pvd.agony.defabricator");
                 harmony.PatchAll(Assembly.GetExecutingAssembly());
                 Main.Patch();
