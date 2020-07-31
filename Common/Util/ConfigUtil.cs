@@ -20,7 +20,7 @@ namespace Agony.Common
         {
             var type = config.GetType();
             var path = PathUtil.GetAssemblyPath(type);
-            return Path.Combine(path, $@"Config/{type.FullName}.json");
+            return Path.Combine(path, $@"Config\{type.FullName}.json");
         }
     }
 }

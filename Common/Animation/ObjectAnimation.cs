@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System;
+using QModManager.Utility;
 
 namespace Agony.Common.Animation
 {
@@ -27,7 +28,7 @@ namespace Agony.Common.Animation
                 }
                 catch(Exception e)
                 {
-                    Logger.Exception(e, $"{anim}.OnUpdate({actor}).");
+                    Logger.Log(Logger.Level.Error, $"{anim}.OnUpdate({actor}).", e);
                     toRemove.Add(actor);
                 }
             }
@@ -44,14 +45,14 @@ namespace Agony.Common.Animation
                 try { animations[actor].OnStop(actor); }
                 catch (Exception e)
                 {
-                    Logger.Exception(e, $"{animations[actor]}.OnStop({actor}).");
+                    Logger.Log(Logger.Level.Error, $"{animations[actor]}.OnStop({actor}).", e);
                 }
             }
 
             try { OnStart(actor); }
             catch (Exception e)
             {
-                Logger.Exception(e, $"{this}.OnStart({actor}).");
+                Logger.Log(Logger.Level.Error, $"{this}.OnStart({actor}).", e);
                 return;
             }
             animations[actor] = this;

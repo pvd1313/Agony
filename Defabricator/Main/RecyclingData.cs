@@ -1,6 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Agony.AssetTools.Wrappers;
 using Agony.Common;
+using QModManager.Utility;
+using SMLHelper.V2.Crafting;
+using SMLHelper.V2.Handlers;
 using UWE;
 
 namespace Agony.Defabricator
@@ -11,7 +15,6 @@ namespace Agony.Defabricator
         {
             private static readonly HashSet<TechType> blacklist = new HashSet<TechType>(); 
             private static readonly Dictionary<TechType, TechType> cache = new Dictionary<TechType, TechType>();
-            private static readonly TechType techBase = (TechType)(int)-1.689e+6;
             private static readonly string nonRecyclableText = "<color=#FF3030FF>Non-recyclable</color>";
             private static readonly string nonRecyclableTextID = "Agony_Defabricator_NonRecyclable";
             private static readonly string nonRecyclableTooltip = "Unfortunately there are no techniques that could be used in order to recycle this item.";
@@ -21,7 +24,6 @@ namespace Agony.Defabricator
             private static readonly string recycleText = "<color=#00FA00FF>Recycle:</color> {0}";
             private static readonly string recycleTooltipID = "Agony_Defabricator_Recycling_Tooltip";
             private static readonly string recycleTooltip = "Scrap for {0}.";
-            private static readonly string techKeyPrefix = "AgonyDefabricatorRecycling";
 
             static RecyclingData()
             {
@@ -42,13 +44,12 @@ namespace Agony.Defabricator
                 var originData = CraftData.Get(originTech, true);
                 if (originData == null)
                 {
-                    Logger.Error($"Failed to load ITechData for TechType '{originTech}'.");
+                    Logger.Log(Logger.Level.Error, $"Failed to load ITechData for TechType '{originTech}'.");
                     return false;
                 }
 
-                recyclingTech = techBase + cache.Count;
+                recyclingTech = TechTypeHandler.AddTechType($"Defabricated{originTech}", "", "");
                 cache[originTech] = recyclingTech;
-                TechTypeExtensionsWrapper.Link(recyclingTech, techKeyPrefix + recyclingTech);
                 if (Config.IsBlacklisted(originTech)) { blacklist.Add(recyclingTech); }
                 KnownTechWrapper.AddDefault(recyclingTech);
                 LoadRecyclingData(originTech, recyclingTech);
@@ -66,7 +67,7 @@ namespace Agony.Defabricator
             {
                 if (IsBlackListed(recyclingTech))
                 {
-                    CraftDataWrapper.SetTechData(recyclingTech, new TechData(0, new Ingredient[0], new TechType[0]));
+                    CraftDataHandler.SetTechData(recyclingTech, new TechData(new List<Ingredient>()));
                     return;
                 }
 
@@ -78,7 +79,7 @@ namespace Agony.Defabricator
                     var item = originData.GetLinkedItem(i);
                     ingredients[item] = ingredients.ContainsKey(item) ? (ingredients[item] + 1) : 1;
                 }
-                var resIngs = new List<IIngredient>();
+                var resIngs = new List<Ingredient>();
                 ingredients.ForEach(x => resIngs.Add(new Ingredient(x.Key, x.Value)));
 
                 var linkedItems = new List<TechType>();
@@ -90,8 +91,8 @@ namespace Agony.Defabricator
                     var amount = UnityEngine.Mathf.FloorToInt(ing.amount * Config.GetYield(ing.techType));
                     for(var j = 0; j < amount; j++) { linkedItems.Add(ing.techType); }
                 }
-
-                CraftDataWrapper.SetTechData(recyclingTech, new TechData(0, resIngs, linkedItems));
+                TechData Data = new TechData() { craftAmount = 0, Ingredients = resIngs, LinkedItems = linkedItems };
+                CraftDataHandler.SetTechData(recyclingTech, Data);
             }
 
             private static bool IsPlayerToolWithEnergyMixin(TechType techType)
@@ -116,14 +117,14 @@ namespace Agony.Defabricator
                 }
                 else
                 {
-                    Logger.Warning($"Failed to load prefabID or fileName for TechType '{originTech}'.");
+                    Logger.Log(Logger.Level.Warn, $"Failed to load prefabID or fileName for TechType '{originTech}'.");
                 }
             }
 
             private static void LoadRecyclingSprite(TechType originTech, TechType recyclingTech)
             {
-                var originSprite = SpriteManager.Get(SpriteManager.Group.Item, originTech.AsString());
-                SpriteManagerWrapper.Set(SpriteManager.Group.Item, recyclingTech.AsString(), originSprite);
+                var originSprite = SpriteManager.Get(originTech);
+                SpriteHandler.Main.RegisterSprite(recyclingTech, originSprite);
             }
 
             private static void LoadRecyclingText(TechType originTech, TechType recyclingTech)
@@ -140,13 +141,12 @@ namespace Agony.Defabricator
 
                 var techName = lang.Get(originTech.AsString());
                 var translation = lang.Get(recycleTextID);
-                var formated = StringUtil.FormatWithFallback(translation, recycleText, techName);
+                var formated = FormatWithFallback(translation, recycleText, techName);
                 LanguageWrapper.SetDefault(recyclingTech.AsString(), formated);
             }
 
             private static void LoadRecyclingTooltip(TechType recyclingTech)
             {
-                TooltipFactoryWrapper.RegisterTech(recyclingTech);
                 var lang = Language.main;
                 if (lang == null) return;
 
@@ -182,8 +182,20 @@ namespace Agony.Defabricator
                 var ingList = builder.ToString();
 
                 var tooltip = lang.Get(recycleTooltipID);
-                var formated = StringUtil.FormatWithFallback(tooltip, recycleTooltip, ingList);              
+                var formated = FormatWithFallback(tooltip, recycleTooltip, ingList);
                 LanguageWrapper.SetDefault("Tooltip_" + recyclingTech.AsString(), formated);
+            }
+            public static string FormatWithFallback(string unmanaged, string fallback, params object[] args)
+            {
+                if (fallback == null)
+                    throw new ArgumentNullException("fallback is null");
+
+                try
+                {
+                    return string.Format(unmanaged, args);
+                }
+                catch (FormatException) { }
+                return string.Format(fallback, args);
             }
         }
     }

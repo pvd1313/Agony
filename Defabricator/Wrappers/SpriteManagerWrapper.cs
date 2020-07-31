@@ -3,7 +3,7 @@ using Agony.Common.Reflection;
 using Agony.Common;
 using UnityEngine;
 using System.IO;
-using Harmony;
+using HarmonyLib;
 using System;
 
 namespace Agony.AssetTools.Wrappers
@@ -44,23 +44,5 @@ namespace Agony.AssetTools.Wrappers
             spriteDatabase[group][name] = sprite ?? throw new ArgumentNullException("sprite is null");
         }
 
-        public static void Export(string path)
-        {
-            if (string.IsNullOrEmpty(path)) throw new ArgumentException("path is null or empty");
-
-            var atlases = Resources.LoadAll<Atlas>("Atlases/");
-            foreach(var atlas in atlases)
-            {
-                var directory = Path.Combine(path, AtlasReflector.GetAtlasName(atlas) + "/");
-                Directory.CreateDirectory(directory);
-                foreach(var data in AtlasReflector.GetSerialData(atlas))
-                {
-                    var texture = SpriteUtil.Render(data.sprite);
-                    texture.ConvertPixels(x => x.gamma);
-                    texture.SavePNG(Path.Combine(directory, data.name + ".png"));
-                    UnityEngine.Object.Destroy(texture);
-                }
-            }
-        }
     }
 }

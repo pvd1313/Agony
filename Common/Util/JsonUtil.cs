@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using LitJson;
 using System;
+using QModManager.Utility;
 
 namespace Agony.Common
 {
@@ -19,7 +20,7 @@ namespace Agony.Common
             }
             catch(Exception e)
             {
-                Logger.Exception(e, $"File:'{fileName}'.");
+                Logger.Log(Logger.Level.Error, $"File:'{fileName}'.", e);
                 return false;
             }
         }
@@ -40,7 +41,7 @@ namespace Agony.Common
             }
             catch (Exception e)
             {
-                Logger.Exception(e, $"File:'{fileName}'.");
+                Logger.Log(Logger.Level.Error, $"File:'{fileName}'.", e);
                 return false;
             }
         }

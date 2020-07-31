@@ -1,58 +1,38 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.28010.2019
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LanguagePatcher", "LanguagePatcher\LanguagePatcher.csproj", "{9317E53F-0A52-4409-8B67-062F74E253BD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadialTabs", "RadialMenu\RadialTabs.csproj", "{C55CE7C5-88DB-4475-A03D-BDC384F2D683}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common", "Common\Common.shproj", "{12CB5F8C-3958-4FF9-8365-B7CF48B02883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AssetTools", "AssetTools\AssetTools.csproj", "{AFBD8A3C-6A82-4D8C-A468-24845105B679}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{722B56B0-4EA8-4D0F-9263-CC234F85F167}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Defabricator", "Defabricator\Defabricator.csproj", "{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WorkbenchFix", "WorkbenchFix\WorkbenchFix.csproj", "{AE522B15-3F84-459F-96D5-32F5D1A4A233}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC50E758-E417-4CCC-A5C2-BAD45368C317}"
+	ProjectSection(SolutionItems) = preProject
+		GameDir.targets = GameDir.targets
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		Common\Common.projitems*{0a72db9c-0271-4abe-9f5f-25bd4d77d720}*SharedItemsImports = 4
 		Common\Common.projitems*{12cb5f8c-3958-4ff9-8365-b7cf48b02883}*SharedItemsImports = 13
-		Common\Common.projitems*{ae522b15-3f84-459f-96d5-32f5d1a4a233}*SharedItemsImports = 4
-		Common\Common.projitems*{afbd8a3c-6a82-4d8c-a468-24845105b679}*SharedItemsImports = 4
 		Common\Common.projitems*{c55ce7c5-88db-4475-a03d-bdc384f2d683}*SharedItemsImports = 4
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
-		Debug|Any CPU = Debug|Any CPU
-		Release|Any CPU = Release|Any CPU
+		BelowZero|Any CPU = BelowZero|Any CPU
+		Subnautica|Any CPU = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{9317E53F-0A52-4409-8B67-062F74E253BD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{9317E53F-0A52-4409-8B67-062F74E253BD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{9317E53F-0A52-4409-8B67-062F74E253BD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{9317E53F-0A52-4409-8B67-062F74E253BD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C55CE7C5-88DB-4475-A03D-BDC384F2D683}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C55CE7C5-88DB-4475-A03D-BDC384F2D683}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{C55CE7C5-88DB-4475-A03D-BDC384F2D683}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{C55CE7C5-88DB-4475-A03D-BDC384F2D683}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFBD8A3C-6A82-4D8C-A468-24845105B679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFBD8A3C-6A82-4D8C-A468-24845105B679}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFBD8A3C-6A82-4D8C-A468-24845105B679}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFBD8A3C-6A82-4D8C-A468-24845105B679}.Release|Any CPU.Build.0 = Release|Any CPU
-		{722B56B0-4EA8-4D0F-9263-CC234F85F167}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{722B56B0-4EA8-4D0F-9263-CC234F85F167}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{722B56B0-4EA8-4D0F-9263-CC234F85F167}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{722B56B0-4EA8-4D0F-9263-CC234F85F167}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AE522B15-3F84-459F-96D5-32F5D1A4A233}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AE522B15-3F84-459F-96D5-32F5D1A4A233}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AE522B15-3F84-459F-96D5-32F5D1A4A233}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AE522B15-3F84-459F-96D5-32F5D1A4A233}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C55CE7C5-88DB-4475-A03D-BDC384F2D683}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{C55CE7C5-88DB-4475-A03D-BDC384F2D683}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{C55CE7C5-88DB-4475-A03D-BDC384F2D683}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{C55CE7C5-88DB-4475-A03D-BDC384F2D683}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
+		{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}.BelowZero|Any CPU.ActiveCfg = BelowZero|Any CPU
+		{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}.BelowZero|Any CPU.Build.0 = BelowZero|Any CPU
+		{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}.Subnautica|Any CPU.ActiveCfg = Subnautica|Any CPU
+		{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}.Subnautica|Any CPU.Build.0 = Subnautica|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

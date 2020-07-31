@@ -2,7 +2,7 @@
 using UnityEngine;
 using System;
 
-using AGLogger = Agony.Common.Logger;
+using Logger = QModManager.Utility.Logger;
 
 namespace Agony.Defabricator
 {
@@ -27,7 +27,7 @@ namespace Agony.Defabricator
                         var anim = new ShaderColorPropertyAnimation(ShaderPropertyID._TintColor, func);
                         anim.Play(custom);
                     }
-                    catch (Exception e) { AGLogger.Exception(e); }
+                    catch (Exception e) { Logger.Log(Logger.Level.Error, null, e); }
                 }
             }
         }

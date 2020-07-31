@@ -1,5 +1,5 @@
 ﻿using Agony.Common.Reflection;
-using Harmony;
+using HarmonyLib;
 
 namespace Agony.Defabricator
 {

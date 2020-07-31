@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Reflection;
 using Agony.Common;
-using Harmony;
+using HarmonyLib;
 
 namespace Agony.Defabricator
 {
