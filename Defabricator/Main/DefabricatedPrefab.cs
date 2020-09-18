@@ -19,12 +19,12 @@ namespace Agony.Main
             Original = original;
             Data = data;
         }
-#if BELOWZERO
+
         public override GameObject GetGameObject()
         {
             return CraftData.GetPrefabForTechType(Original);
         }
-#endif
+
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(Original, false);

@@ -27,7 +27,7 @@ namespace Agony.Defabricator
             Active = true;
 
             int c = 0, n = 0;
-            uGUI_CraftNode menuRoot = uGUI_CraftingMenuReflector.GetIcons(GUIHandler.CurrentMenu);
+            uGUI_CraftNode menuRoot = GUIHandler.CurrentMenu.icons;
 
             if (!Language.main.TryGet("DefabricatedTitanium", out _))
             {
@@ -59,7 +59,7 @@ namespace Agony.Defabricator
             Active = false;
 
             int c = 0, n = 0;
-            uGUI_CraftNode menuRoot = uGUI_CraftingMenuReflector.GetIcons(GUIHandler.CurrentMenu);
+            uGUI_CraftNode menuRoot = GUIHandler.CurrentMenu.icons;
 
             ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
             menuRoot?.UpdateRecursively(ref c, ref n); 

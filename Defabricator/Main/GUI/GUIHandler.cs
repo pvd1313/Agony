@@ -36,7 +36,7 @@ namespace Agony.Defabricator
                 private static void Postfix(uGUI_CraftNode __instance)
                 {
                     if (!Active) return;
-                    if (uGUI_CraftNodeReflector.GetView(__instance) != CurrentMenu) return;
+                    if (__instance.view != CurrentMenu) return;
 
                     GUIFormatter.PaintNodeColor(__instance);
                 }
@@ -48,11 +48,11 @@ namespace Agony.Defabricator
                 private static void Postfix(uGUI_CraftNode __instance, bool available)
                 {
                     if (!Active) return;
-                    if (uGUI_CraftNodeReflector.GetView(__instance) != CurrentMenu) return;
+                    if (__instance.view != CurrentMenu) return;
 
-                    if (uGUI_CraftNodeReflector.GetVisible(__instance))
+                    if (__instance.visible)
                     {
-                        var enabled = available && !uGUI_CraftNodeReflector.IsLockedInHierarchy(__instance);
+                        var enabled = available && !__instance.IsLockedInHierarchy();
                         GUIFormatter.SetNodeChroma(__instance, enabled);
                     }
                 }

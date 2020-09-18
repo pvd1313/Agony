@@ -12,13 +12,10 @@
     <Compile Include="Animation\AnimationFuncs.cs" />
     <Compile Include="Animation\MaterialColorAnimation.cs" />
     <Compile Include="Animation\ObjectAnimation.cs" />
-    <Compile Include="Reflection\uGUI_CraftingMenuReflector.cs" />
-    <Compile Include="Reflection\uGUI_CraftNodeReflector.cs" />
     <Compile Include="Updater.cs" />
     <Compile Include="Util\ConfigUtil.cs" />
     <Compile Include="Util\JsonUtil.cs" />
     <Compile Include="Util\MathUtil.cs" />
-    <Compile Include="Util\TechUtil.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Common.projitems" />
