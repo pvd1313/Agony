@@ -8,6 +8,13 @@ using QModManager.Utility;
 using SMLHelper.V2.Crafting;
 using SMLHelper.V2.Handlers;
 using UWE;
+using UnityEngine;
+using Logger = QModManager.Utility.Logger;
+#if SUBNAUTICA
+using Data = SMLHelper.V2.Crafting.TechData;
+#elif BELOWZERO
+using Data = SMLHelper.V2.Crafting.RecipeData;
+#endif
 
 namespace Agony.Defabricator
 {
@@ -52,7 +59,7 @@ namespace Agony.Defabricator
 
             
 
-            private static TechType CreateRecyclingData(TechType originTech, TechData originData)
+            private static TechType CreateRecyclingData(TechType originTech, Data originData)
             {
                 if (IsBlackListed(originTech))
                 {
@@ -73,11 +80,9 @@ namespace Agony.Defabricator
                 ingredients.ForEach(x => resIngs.Add(new Ingredient(x.Key, x.Value)));
 
                 var linkedItems = new List<TechType>();
-                var isTool = IsPlayerToolWithEnergyMixin(originTech);
                 for(var i = 0; i < originData.ingredientCount; i++)
                 {
                     var ing = originData.GetIngredient(i);
-                    if (isTool && IsBattery(ing.techType)) { continue; }
                     var amount = UnityEngine.Mathf.FloorToInt(ing.amount * Config.GetYield(ing.techType));
                     for(var j = 0; j < amount; j++) { linkedItems.Add(ing.techType); }
                 }
@@ -85,6 +90,7 @@ namespace Agony.Defabricator
                 DefabricatedPrefab defabricatedPrefab = new DefabricatedPrefab($"Defabricated{originTech}", LoadRecyclingText(originTech), LoadRecyclingTooltip(originTech, Data), originTech, Data);
                 defabricatedPrefab.Patch();
 
+#if SUBNAUTICA
                 Dictionary<string, Atlas> nameToAtlas = AccessTools.Field(typeof(Atlas), "nameToAtlas").GetValue(null) as Dictionary<string, Atlas>;
 
                 foreach (Atlas atlas in nameToAtlas.Values)
@@ -96,18 +102,25 @@ namespace Agony.Defabricator
                         break;
                     }
                 }
+				
+#elif BELOWZERO
+                Dictionary<string, Dictionary<string, Sprite>> atlases = AccessTools.Field(typeof(SpriteManager), "atlases").GetValue(null) as Dictionary<string, Dictionary<string, Sprite>>;
+
+                foreach (Dictionary<string, Sprite> atlas in atlases.Values)
+                {
+                    if (atlas.TryGetValue(originTech.AsString(), out Sprite sprite))
+                    {
+                        atlas[defabricatedPrefab.TechType.AsString()] = sprite;
+                        break;
+                    }
+                }
+#endif
+                if (IsBlackListed(originTech))
+                {
+                    blacklist.Add(defabricatedPrefab.TechType);
+                }
 
                 return defabricatedPrefab.TechType;
-            }
-
-            private static bool IsPlayerToolWithEnergyMixin(TechType techType)
-            {
-                return TechUtil.TechTypePrefabContains<PlayerTool>(techType) && TechUtil.TechTypePrefabContains<EnergyMixin>(techType);
-            }
-
-            private static bool IsBattery(TechType techType)
-            {
-                return TechUtil.TechTypePrefabContains<Battery>(techType);
             }
 
             private static string LoadRecyclingText(TechType originTech)
@@ -123,7 +136,7 @@ namespace Agony.Defabricator
                 return formated;
             }
 
-            private static string LoadRecyclingTooltip(TechType originTech, TechData data)
+            private static string LoadRecyclingTooltip(TechType originTech, Data data)
             {
                 if (IsBlackListed(originTech))
                 {
