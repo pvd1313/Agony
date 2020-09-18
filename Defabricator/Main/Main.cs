@@ -1,12 +1,15 @@
 ﻿using System.Collections.Generic;
 using Agony.Common.Reflection;
 using System;
+using FMOD;
+using HarmonyLib;
 
 namespace Agony.Defabricator
 {
     internal static partial class Main
     {
         public static bool Active { get; private set; }
+
         private static Dictionary<uGUI_CraftNode, TechType> replacedNodeTechs = new Dictionary<uGUI_CraftNode, TechType>();
 
         public static void Patch() { KeyInputHandler.Patch(); }
@@ -25,11 +28,26 @@ namespace Agony.Defabricator
             Active = true;
 
             int c = 0, n = 0;
-            var menuRoot = uGUI_CraftingMenuReflector.GetIcons(GUIHandler.CurrentMenu);
+            uGUI_CraftNode menuRoot = uGUI_CraftingMenuReflector.GetIcons(GUIHandler.CurrentMenu);
+
+            if (!Language.main.TryGet("DefabricatedTitanium", out _))
+            {
+                foreach(TechType techType in Enum.GetValues(typeof(TechType)))
+                {
+                    if(SMLHelper.V2.Handlers.CraftDataHandler.GetTechData(techType) != null)
+                    {
+                        RecyclingData.TryGet(techType, out _, true);
+                    }
+                }
+
+                Language.main.LoadLanguageFile(Language.main.GetCurrentLanguage());
+                CraftData.RebuildDatabase();
+            }
 
             ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
-            if (menuRoot != null) { menuRoot.UpdateRecursively(ref c, ref n); }
+            menuRoot?.UpdateRecursively(ref c, ref n);
             ForeachChildRecursively(menuRoot, x => GUIFormatter.PaintNodeColorAnimated(x));
+
         }
 
         private static void Deactivate()
@@ -38,11 +56,10 @@ namespace Agony.Defabricator
             Active = false;
 
             int c = 0, n = 0;
-            var menuRoot = uGUI_CraftingMenuReflector.GetIcons(GUIHandler.CurrentMenu);
+            uGUI_CraftNode menuRoot = uGUI_CraftingMenuReflector.GetIcons(GUIHandler.CurrentMenu);
 
-            replacedNodeTechs.ForEach(x => x.Key.techType0 = x.Value);
-            replacedNodeTechs.Clear();
-            if (menuRoot != null) { menuRoot.UpdateRecursively(ref c, ref n); }
+            ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
+            menuRoot?.UpdateRecursively(ref c, ref n); 
             ForeachChildRecursively(menuRoot, x => GUIFormatter.RevertNodeColorAnimated(x));
         }
 
@@ -60,11 +77,13 @@ namespace Agony.Defabricator
         {
             if (node.action != TreeAction.Craft) return;
 
-            TechType recyclingTech;
-            if (RecyclingData.TryGet(node.techType0, out recyclingTech))
+            if (!node.techType0.ToString().StartsWith("Defabricated") && RecyclingData.TryGet(node.techType0, out TechType recyclingTech))
             {
-                replacedNodeTechs[node] = node.techType0;
                 node.techType0 = recyclingTech;
+            }
+            else if (node.techType0.ToString().StartsWith("Defabricated"))
+            {
+                TechTypeExtensions.FromString(node.techType0.ToString().Replace("Defabricated", ""), out node.techType0, true);
             }
         }
     }

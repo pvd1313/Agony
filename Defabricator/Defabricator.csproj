@@ -91,6 +91,7 @@
     <Compile Include="CrafterFX\WorkbenchFX_BeamMaterial.cs" />
     <Compile Include="CrafterFX\FabricatorFX_BeamMaterial.cs" />
     <Compile Include="CrafterFX\WorkbenchFX.cs" />
+    <Compile Include="Main\DefabricatedPrefab.cs" />
     <Compile Include="Main\Main.cs" />
     <Compile Include="CrafterFX\GhostModel.cs" />
     <Compile Include="Main\Config\Config.cs" />
@@ -104,12 +105,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main\RecyclingData.cs" />
     <Compile Include="CrafterFX\Handler.cs" />
-    <Compile Include="Wrappers\CraftData\CraftDataWrapper.cs" />
-    <Compile Include="Wrappers\KnownTechWrapper.cs" />
-    <Compile Include="Wrappers\Language\LanguageWrapper.cs" />
-    <Compile Include="Wrappers\Language\LanguageWrapper_Patches.cs" />
-    <Compile Include="Wrappers\PrefabDatabaseWrapper.cs" />
-    <Compile Include="Wrappers\SpriteManagerWrapper.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Items\example.json">
