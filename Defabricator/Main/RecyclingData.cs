@@ -11,9 +11,7 @@ using UWE;
 using UnityEngine;
 using Logger = QModManager.Utility.Logger;
 #if SUBNAUTICA
-using Data = SMLHelper.V2.Crafting.TechData;
-#elif BELOWZERO
-using Data = SMLHelper.V2.Crafting.RecipeData;
+using RecipeData = SMLHelper.V2.Crafting.TechData;
 #endif
 
 namespace Agony.Defabricator
@@ -41,11 +39,11 @@ namespace Agony.Defabricator
                 if (originTech == TechType.None) { return false; }
                 if (cache.TryGetValue(originTech, out recyclingTech)) { return true; }
 
-                TechData originData = CraftDataHandler.GetTechData(originTech);
+                RecipeData originData = CraftDataHandler.GetTechData(originTech);
                 if (originData == null)
                 {
                     if(!initialRun)
-                        Logger.Log(Logger.Level.Error, $"Failed to load TechData for TechType '{originTech}'.");
+                        Logger.Log(Logger.Level.Error, $"Failed to load RecipeData for TechType '{originTech}'.");
                     return false;
                 }
 
@@ -59,12 +57,12 @@ namespace Agony.Defabricator
 
             
 
-            private static TechType CreateRecyclingData(TechType originTech, Data originData)
+            private static TechType CreateRecyclingData(TechType originTech, RecipeData originData)
             {
                 if (IsBlackListed(originTech))
                 {
                     TechType blackListedTech = TechTypeHandler.AddTechType($"Defabricated{originTech}", LoadRecyclingText(originTech), LoadRecyclingTooltip(originTech, null), SpriteManager.Get(originTech), true);
-                    CraftDataHandler.SetTechData(blackListedTech, new TechData(new List<Ingredient>()));
+                    CraftDataHandler.SetTechData(blackListedTech, new RecipeData(new List<Ingredient>()));
                     blacklist.Add(blackListedTech);
                     return blackListedTech;
                 }
@@ -73,7 +71,7 @@ namespace Agony.Defabricator
                 if (originData.craftAmount > 0) { ingredients[originTech] = originData.craftAmount; }
                 for (var i = 0; i < originData.linkedItemCount; i++)
                 {
-                    var item = originData.GetLinkedItem(i);
+                    var item = originData.LinkedItems[i];
                     ingredients[item] = ingredients.ContainsKey(item) ? (ingredients[item] + 1) : 1;
                 }
                 var resIngs = new List<Ingredient>();
@@ -82,13 +80,14 @@ namespace Agony.Defabricator
                 var linkedItems = new List<TechType>();
                 for(var i = 0; i < originData.ingredientCount; i++)
                 {
-                    var ing = originData.GetIngredient(i);
-                    var amount = UnityEngine.Mathf.FloorToInt(ing.amount * Config.GetYield(ing.techType));
+                    var ing = originData.Ingredients[i];
+                    var amount = Mathf.FloorToInt(ing.amount * Config.GetYield(ing.techType));
                     for(var j = 0; j < amount; j++) { linkedItems.Add(ing.techType); }
                 }
-                TechData Data = new TechData() { craftAmount = 0, Ingredients = resIngs, LinkedItems = linkedItems };
+                RecipeData Data = new RecipeData() { craftAmount = 0, Ingredients = resIngs, LinkedItems = linkedItems };
                 DefabricatedPrefab defabricatedPrefab = new DefabricatedPrefab($"Defabricated{originTech}", LoadRecyclingText(originTech), LoadRecyclingTooltip(originTech, Data), originTech, Data);
                 defabricatedPrefab.Patch();
+                KnownTech.Add(defabricatedPrefab.TechType);
 
 #if SUBNAUTICA
                 Dictionary<string, Atlas> nameToAtlas = AccessTools.Field(typeof(Atlas), "nameToAtlas").GetValue(null) as Dictionary<string, Atlas>;
@@ -136,7 +135,7 @@ namespace Agony.Defabricator
                 return formated;
             }
 
-            private static string LoadRecyclingTooltip(TechType originTech, Data data)
+            private static string LoadRecyclingTooltip(TechType originTech, RecipeData data)
             {
                 if (IsBlackListed(originTech))
                 {

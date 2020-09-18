@@ -2,9 +2,8 @@
 using System.Collections;
 using UnityEngine;
 #if SUBNAUTICA
-using Data = SMLHelper.V2.Crafting.TechData;
-#elif BELOWZERO
-using Data = SMLHelper.V2.Crafting.RecipeData;
+using Sprite = Atlas.Sprite;
+using RecipeData = SMLHelper.V2.Crafting.TechData;
 #endif
 
 namespace Agony.Main
@@ -12,13 +11,15 @@ namespace Agony.Main
     internal class DefabricatedPrefab : Craftable
     {
         TechType Original;
-        Data Data;
+        RecipeData Data;
 
-        public DefabricatedPrefab(string classId, string friendlyName, string description, TechType original, Data data) : base(classId, friendlyName, description)
+        public DefabricatedPrefab(string classId, string friendlyName, string description, TechType original, RecipeData data) : base(classId, friendlyName, description)
         {
             Original = original;
             Data = data;
         }
+
+        public override TechType RequiredForUnlock => Original;
 
         public override GameObject GetGameObject()
         {
@@ -34,10 +35,14 @@ namespace Agony.Main
             yield break;
         }
 
-        protected override Data GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
             return Data;
         }
 
+        protected override Sprite GetItemSprite()
+        {
+            return SpriteManager.Get(Original);
+        }
     }
 }

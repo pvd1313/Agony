@@ -43,8 +43,8 @@ namespace Agony.Defabricator
                     }
                 }
 
-                Language.main.LoadLanguageFile(Language.main.GetCurrentLanguage());
                 CraftData.RebuildDatabase();
+                Language.main.LoadLanguageFile(Language.main.GetCurrentLanguage());
             }
 
             ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
