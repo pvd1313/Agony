@@ -14,8 +14,6 @@ namespace Agony.Defabricator
     {
         public static bool Active { get; private set; }
 
-        private static Dictionary<uGUI_CraftNode, TechType> replacedNodeTechs = new Dictionary<uGUI_CraftNode, TechType>();
-
         public static void Patch() 
         { 
             KeyInputHandler.Patch();
@@ -95,9 +93,12 @@ namespace Agony.Defabricator
             int c = 0, n = 0;
             var menuRoot = GUIHandler.CurrentMenu.tree;
 
-            ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x, true));
+            if (menuRoot != null)
+            {
+                ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
             GUIHandler.CurrentMenu.UpdateNotifications(menuRoot, ref c, ref n);
             ForeachChildRecursively(menuRoot, x => GUIFormatter.PaintNodeColorAnimated(x));
+            }
         }
 
         private static void Deactivate()
@@ -108,9 +109,12 @@ namespace Agony.Defabricator
             int c = 0, n = 0;
             var menuRoot = GUIHandler.CurrentMenu.tree;
 
-            ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x, false));
-            GUIHandler.CurrentMenu.UpdateNotifications(menuRoot, ref c, ref n);
-            ForeachChildRecursively(menuRoot, x => GUIFormatter.RevertNodeColorAnimated(x));
+            if(menuRoot != null)
+            {
+                ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
+                GUIHandler.CurrentMenu.UpdateNotifications(menuRoot, ref c, ref n);
+                ForeachChildRecursively(menuRoot, x => GUIFormatter.RevertNodeColorAnimated(x));
+            }
         }
 
         private static void ForeachChildRecursively(uGUI_CraftNode node, Action<uGUI_CraftNode> action)
@@ -123,24 +127,24 @@ namespace Agony.Defabricator
             }
         }
 
-        private static void ReplaceNodeTech(uGUI_CraftNode node, bool activate)
+        private static void ReplaceNodeTech(uGUI_CraftNode node)
         {
             if (node.action != TreeAction.Craft)
                 return;
 
-            if (!node.techType.ToString().StartsWith("Defabricated") && activate && RecyclingData.TryGet(node.techType, out TechType recyclingTech))
+
+            if (!node.techType.ToString().StartsWith("Defabricated") && RecyclingData.TryGet(node.techType, out TechType recyclingTech))
             {
-                replacedNodeTechs[node] = node.techType;
                 node.techType = recyclingTech;
             }
-            else if (node.techType.ToString().StartsWith("Defabricated") && !activate)
+            else if (node.techType.ToString().StartsWith("Defabricated"))
             {
-                string techString = node.techType.ToString().Replace("Defabricated", "");
-                if(Enum.TryParse(techString, out TechType techType))
-                {
-                    replacedNodeTechs[node] = node.techType;
-                    node.techType = techType;
-                }
+                TechTypeExtensions.FromString(node.techType.ToString().Replace("Defabricated", ""), out TechType original, true);
+                node.techType = original;
+            }
+            else
+            {
+                ErrorMessage.AddMessage($"Failed to change {node.techType}");
             }
         }
 

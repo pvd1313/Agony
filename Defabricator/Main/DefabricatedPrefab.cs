@@ -12,12 +12,12 @@ namespace Agony.Main
     internal class DefabricatedPrefab : Craftable
     {
         TechType Original;
-        RecipeData Data;
+        RecipeData recipeData;
 
         public DefabricatedPrefab(string classId, string friendlyName, string description, TechType original, RecipeData data) : base(classId, friendlyName, description)
         {
             Original = original;
-            Data = data;
+            recipeData = data;
         }
 
         public override TechType RequiredForUnlock => Original;
@@ -39,7 +39,7 @@ namespace Agony.Main
 
         protected override RecipeData GetBlueprintRecipe()
         {
-            return Data;
+            return recipeData;
         }
 
         protected override Sprite GetItemSprite()

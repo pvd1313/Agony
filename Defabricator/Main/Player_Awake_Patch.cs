@@ -1,5 +1,6 @@
 ﻿using System;
 using HarmonyLib;
+using SMLHelper.V2.Handlers;
 
 namespace Agony.Defabricator
 {
@@ -16,13 +17,16 @@ namespace Agony.Defabricator
 #if SUBNAUTICA
                     if (SMLHelper.V2.Handlers.CraftDataHandler.GetTechData(techType) != null)
 #elif BELOWZERO
-                    if(SMLHelper.V2.Handlers.CraftDataHandler.GetRecipeData(techType) != null)
+                    if (SMLHelper.V2.Handlers.CraftDataHandler.GetRecipeData(techType) != null)
 #endif
                     {
-                        RecyclingData.TryGet(techType, out _, true);
+                        RecyclingData.TryGet(techType, out TechType recyclingTech, true);
                     }
                 }
 
+#if BELOWZERO
+                TechData.Cache();
+#endif
                 CraftData.RebuildDatabase();
                 Language.main.LoadLanguageFile(Language.main.GetCurrentLanguage());
             }
