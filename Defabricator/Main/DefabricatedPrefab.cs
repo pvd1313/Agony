@@ -1,4 +1,5 @@
 ﻿using SMLHelper.V2.Assets;
+using SMLHelper.V2.Crafting;
 using System.Collections;
 using UnityEngine;
 #if SUBNAUTICA
@@ -23,15 +24,16 @@ namespace Agony.Main
 
         public override GameObject GetGameObject()
         {
-            return CraftData.GetPrefabForTechType(Original);
+            return GameObject.Instantiate(CraftData.GetPrefabForTechType(Original));
         }
 
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(Original, false);
             yield return task;
+            GameObject prefab = task.GetResult();
 
-            gameObject.Set(task.GetResult());
+            gameObject.Set(GameObject.Instantiate(prefab));
             yield break;
         }
 

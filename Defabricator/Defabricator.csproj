@@ -101,6 +101,7 @@
     <Compile Include="Main\GUI\GUIFormatter.cs" />
     <Compile Include="CrafterFX\FabricatorFX.cs" />
     <Compile Include="IconColorAnimation.cs" />
+    <Compile Include="Main\Player_Awake_Patch.cs" />
     <Compile Include="QMod.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main\RecyclingData.cs" />

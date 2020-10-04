@@ -38,8 +38,11 @@ namespace Agony.Defabricator
                 recyclingTech = TechType.None;
                 if (originTech == TechType.None) { return false; }
                 if (cache.TryGetValue(originTech, out recyclingTech)) { return true; }
-
+#if SUBNAUTICA
                 RecipeData originData = CraftDataHandler.GetTechData(originTech);
+#elif BELOWZERO
+                RecipeData originData = CraftDataHandler.GetRecipeData(originTech);
+#endif
                 if (originData == null)
                 {
                     if(!initialRun)
