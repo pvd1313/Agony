@@ -2,7 +2,9 @@
 using UnityEngine;
 using System;
 
-using AGLogger = Agony.Common.Logger;
+using Logger = QModManager.Utility.Logger;
+using UWE;
+using System.Collections;
 
 namespace Agony.Defabricator
 {
@@ -12,22 +14,26 @@ namespace Agony.Defabricator
         {
             private static class BeamMaterial
             {
-                public static readonly Material original;
-                public static readonly Material custom;
+                internal static Material original;
+                internal static Material custom;
 
                 static BeamMaterial()
                 {
-                    try
-                    {
-                        var prefab = CraftData.GetPrefabForTechType(TechType.Workbench);
-                        original = prefab.GetComponent<Workbench>().fxLaserBeam[0].GetComponent<Renderer>().sharedMaterial;
-                        custom = new Material(original);
+                    CoroutineHost.StartCoroutine(GetMaterials());
+                }
 
-                        var func = AnimationFuncs.SinusoidalColor(Config.BeamColor, Config.BeamAlphaColor, Config.BeamFrequency);
-                        var anim = new ShaderColorPropertyAnimation(ShaderPropertyID._Color, func);
-                        anim.Play(custom);
-                    }
-                    catch (Exception e) { AGLogger.Exception(e); }
+                private static IEnumerator GetMaterials()
+                {
+                    CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.Fabricator, false);
+                    yield return task;
+
+                    GameObject prefab = task.GetResult();
+                    original = prefab.GetComponent<Fabricator>().leftBeam.GetComponent<Renderer>().sharedMaterial;
+                    custom = new Material(original);
+
+                    var func = AnimationFuncs.SinusoidalColor(Config.BeamColor, Config.BeamAlphaColor, Config.BeamFrequency);
+                    var anim = new ShaderColorPropertyAnimation(ShaderPropertyID._TintColor, func);
+                    anim.Play(custom);
                 }
             }
         }

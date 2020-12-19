@@ -1,4 +1,5 @@
 ﻿using System.IO;
+using System.Reflection;
 
 namespace Agony.Common
 {
@@ -19,8 +20,8 @@ namespace Agony.Common
         private static string GetConfigPath<T>(T config)
         {
             var type = config.GetType();
-            var path = PathUtil.GetAssemblyPath(type);
-            return Path.Combine(path, $@"Config/{type.FullName}.json");
+            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+            return Path.Combine(path, $@"Config\{type.FullName}.json");
         }
     }
 }

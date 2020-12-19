@@ -2,6 +2,7 @@
 using Agony.Common;
 using System.IO;
 using System;
+using System.Reflection;
 
 namespace Agony.Defabricator
 {
@@ -39,7 +40,7 @@ namespace Agony.Defabricator
             
             static Config()
             {
-                var path = PathUtil.GetAssemblyPath(typeof(Main));
+                var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
                 path = Path.Combine(path, fileDataDirectory);
                 Directory.CreateDirectory(path);
                 var files = Directory.GetFiles(path, fileDataSearchPattern);

@@ -1,4 +1,7 @@
 ﻿using UnityEngine;
+#if BELOWZERO
+using uGUI_CraftNode = uGUI_CraftingMenu.Node;
+#endif
 
 namespace Agony.Defabricator
 {
@@ -12,7 +15,11 @@ namespace Agony.Defabricator
 
             public static void PaintNodeColor(uGUI_CraftNode node)
             {
+#if SUBNAUTICA
                 var frontColor = RecyclingData.IsBlackListed(node.techType0) ? Color.black : GUIFormatter.frontColor;
+#elif BELOWZERO
+                var frontColor = RecyclingData.IsBlackListed(node.techType) ? Color.black : GUIFormatter.frontColor;
+#endif
                 SetIconColors(node.icon, frontColor, backColor);
             }
 
@@ -37,7 +44,11 @@ namespace Agony.Defabricator
 
             public static void PaintNodeColorAnimated(uGUI_CraftNode node)
             {
+#if SUBNAUTICA
                 var frontColor = RecyclingData.IsBlackListed(node.techType0) ? Color.black : GUIFormatter.frontColor;
+#elif BELOWZERO
+                var frontColor = RecyclingData.IsBlackListed(node.techType) ? Color.black : GUIFormatter.frontColor;
+#endif
                 AnimateIconColor(node.icon, frontColor, backColor);
             }
 

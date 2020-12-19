@@ -12,23 +12,9 @@
     <Compile Include="$(MSBuildThisFileDirectory)Animation\AnimationFuncs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animation\MaterialColorAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animation\ObjectAnimation.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Ingredient.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)TechData.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reflection\AtlasReflector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reflection\CraftDataReflector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reflection\LanguageReflector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reflection\uGUI_CraftingMenuReflector.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Reflection\uGUI_CraftNodeReflector.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Updater.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\ConfigUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\DictionaryExtensions.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\JsonUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Logger.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\MathUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\PathUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Extensions\Texture2DExtensions.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\StringUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\TechUtil.cs" />
-    <Compile Include="$(MSBuildThisFileDirectory)Util\TextureUtil.cs" />
   </ItemGroup>
 </Project>

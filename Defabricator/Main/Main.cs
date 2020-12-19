@@ -1,15 +1,23 @@
 ﻿using System.Collections.Generic;
-using Agony.Common.Reflection;
 using System;
+using FMOD;
+using UWE;
+using System.Collections;
+using UnityEngine;
+#if BELOWZERO
+using uGUI_CraftNode = uGUI_CraftingMenu.Node;
+#endif
 
 namespace Agony.Defabricator
 {
     internal static partial class Main
     {
         public static bool Active { get; private set; }
-        private static Dictionary<uGUI_CraftNode, TechType> replacedNodeTechs = new Dictionary<uGUI_CraftNode, TechType>();
 
-        public static void Patch() { KeyInputHandler.Patch(); }
+        public static void Patch() 
+        { 
+            KeyInputHandler.Patch();
+        }
 
         public static bool IsCurrentCrafter(Crafter crafter)
         {
@@ -18,6 +26,7 @@ namespace Agony.Defabricator
             return crafter as ITreeActionReceiver == GUIHandler.CurrentMenu.client;
         }
 
+#if SUBNAUTICA
         private static void Activate()
         {
             if (Active) return;
@@ -25,11 +34,12 @@ namespace Agony.Defabricator
             Active = true;
 
             int c = 0, n = 0;
-            var menuRoot = uGUI_CraftingMenuReflector.GetIcons(GUIHandler.CurrentMenu);
+            uGUI_CraftNode menuRoot = GUIHandler.CurrentMenu.icons;
 
             ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
-            if (menuRoot != null) { menuRoot.UpdateRecursively(ref c, ref n); }
+            menuRoot?.UpdateRecursively(ref c, ref n);
             ForeachChildRecursively(menuRoot, x => GUIFormatter.PaintNodeColorAnimated(x));
+
         }
 
         private static void Deactivate()
@@ -38,11 +48,10 @@ namespace Agony.Defabricator
             Active = false;
 
             int c = 0, n = 0;
-            var menuRoot = uGUI_CraftingMenuReflector.GetIcons(GUIHandler.CurrentMenu);
+            uGUI_CraftNode menuRoot = GUIHandler.CurrentMenu.icons;
 
-            replacedNodeTechs.ForEach(x => x.Key.techType0 = x.Value);
-            replacedNodeTechs.Clear();
-            if (menuRoot != null) { menuRoot.UpdateRecursively(ref c, ref n); }
+            ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
+            menuRoot?.UpdateRecursively(ref c, ref n); 
             ForeachChildRecursively(menuRoot, x => GUIFormatter.RevertNodeColorAnimated(x));
         }
 
@@ -60,12 +69,85 @@ namespace Agony.Defabricator
         {
             if (node.action != TreeAction.Craft) return;
 
-            TechType recyclingTech;
-            if (RecyclingData.TryGet(node.techType0, out recyclingTech))
+            if (!node.techType0.ToString().StartsWith("Defabricated") && RecyclingData.TryGet(node.techType0, out TechType recyclingTech))
             {
-                replacedNodeTechs[node] = node.techType0;
                 node.techType0 = recyclingTech;
             }
+            else if (node.techType0.ToString().StartsWith("Defabricated"))
+            {
+                TechTypeExtensions.FromString(node.techType0.ToString().Replace("Defabricated", ""), out TechType original, true);
+                node.techType0 = original;
+            }
+            else
+            {
+                ErrorMessage.AddMessage($"Failed to change {node.techType0}");
+            }
         }
+#elif BELOWZERO
+        private static void Activate()
+        {
+            if (Active) return;
+            if (!GUIHandler.CurrentMenu) return;
+            Active = true;
+
+            int c = 0, n = 0;
+            var menuRoot = GUIHandler.CurrentMenu.tree;
+
+            if (menuRoot != null)
+            {
+                ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
+            GUIHandler.CurrentMenu.UpdateNotifications(menuRoot, ref c, ref n);
+            ForeachChildRecursively(menuRoot, x => GUIFormatter.PaintNodeColorAnimated(x));
+            }
+        }
+
+        private static void Deactivate()
+        {
+            if (!Active) return;
+            Active = false;
+
+            int c = 0, n = 0;
+            var menuRoot = GUIHandler.CurrentMenu.tree;
+
+            if(menuRoot != null)
+            {
+                ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
+                GUIHandler.CurrentMenu.UpdateNotifications(menuRoot, ref c, ref n);
+                ForeachChildRecursively(menuRoot, x => GUIFormatter.RevertNodeColorAnimated(x));
+            }
+        }
+
+        private static void ForeachChildRecursively(uGUI_CraftNode node, Action<uGUI_CraftNode> action)
+        {
+            if (node == null) return;
+            foreach (var child in node)
+            {
+                action(child);
+                ForeachChildRecursively(child, action);
+            }
+        }
+
+        private static void ReplaceNodeTech(uGUI_CraftNode node)
+        {
+            if (node.action != TreeAction.Craft)
+                return;
+
+
+            if (!node.techType.ToString().StartsWith("Defabricated") && RecyclingData.TryGet(node.techType, out TechType recyclingTech))
+            {
+                node.techType = recyclingTech;
+            }
+            else if (node.techType.ToString().StartsWith("Defabricated"))
+            {
+                TechTypeExtensions.FromString(node.techType.ToString().Replace("Defabricated", ""), out TechType original, true);
+                node.techType = original;
+            }
+            else
+            {
+                ErrorMessage.AddMessage($"Failed to change {node.techType}");
+            }
+        }
+
+#endif
     }
 }

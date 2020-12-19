@@ -1,4 +1,0 @@
-﻿
-v0.0.3:
-Fixed bug: commands not working after scene reload.
-Added more templates for translation.

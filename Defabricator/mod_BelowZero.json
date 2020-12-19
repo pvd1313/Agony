@@ -1,0 +1,16 @@
+{
+  "Id": "Defabricator",
+  "DisplayName": "Defabricator",
+  "Author": "PVD-MrPurple6411",
+  "Version": "1.0.4",
+  "Dependencies": [ "SMLHelper" ],
+  "Enable": true,
+  "Game": "BelowZero",
+  "NexusId": {
+    "BelowZero": "98"
+  },
+  "VersionChecker": {
+    "LatestVersionURL": "https://github.com/MrPurple6411/Agony/raw/master/Defabricator/mod_BelowZero.json"
+  },
+  "AssemblyName": "Defabricator.dll"
+}

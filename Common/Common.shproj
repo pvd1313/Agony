@@ -8,6 +8,18 @@
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.Default.props" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.Common.props" />
   <PropertyGroup />
+  <ItemGroup>
+    <Compile Include="Animation\AnimationFuncs.cs" />
+    <Compile Include="Animation\MaterialColorAnimation.cs" />
+    <Compile Include="Animation\ObjectAnimation.cs" />
+    <Compile Include="Updater.cs" />
+    <Compile Include="Util\ConfigUtil.cs" />
+    <Compile Include="Util\JsonUtil.cs" />
+    <Compile Include="Util\MathUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Common.projitems" />
+  </ItemGroup>
   <Import Project="Common.projitems" Label="Shared" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\CodeSharing\Microsoft.CodeSharing.CSharp.targets" />
 </Project>
