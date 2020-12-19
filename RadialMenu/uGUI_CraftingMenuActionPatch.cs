@@ -1,5 +1,4 @@
-﻿using Agony.Common.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 using HarmonyLib;
 
 namespace Agony.RadialTabs
@@ -9,8 +8,8 @@ namespace Agony.RadialTabs
     {
         private static void Postfix(uGUI_CraftingMenu __instance, uGUI_CraftNode sender)
         {
-            var client = uGUI_CraftingMenuReflector.GetClient(__instance);
-            var interactable = uGUI_CraftingMenuReflector.GetInteractable(__instance);
+            var client = __instance._client;
+            var interactable = __instance.interactable;
             if (client == null || !interactable || !__instance.ActionAvailable(sender))
             {
                 if (sender.icon == null) { return; }

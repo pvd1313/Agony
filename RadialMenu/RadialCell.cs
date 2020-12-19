@@ -1,5 +1,4 @@
-﻿using Agony.Common.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Agony.RadialTabs
 {
@@ -41,7 +40,7 @@ namespace Agony.RadialTabs
             var size = (float)Config.RootIconSize;
             if (siblings <= 1) { return new RadialCell(0, 0, size, float.NaN, siblings, InvalidCell); }
 
-            var index = uGUI_CraftNodeReflector.GetIndex(node);
+            var index = node.index;
             var radius = GetPolygonRadius(size, siblings);
             if (siblings > Config.MaxRootIconCount)
             {
@@ -59,7 +58,7 @@ namespace Agony.RadialTabs
             var siblings = node.parent.childCount;
             var size = ComputeNewSize(parent);
             var radius = ComputeNewRadius(parent, size);
-            var index = uGUI_CraftNodeReflector.GetIndex(node);
+            var index = node.index;
             var maxSiblings = GetPolygonLineCount(radius, size);
             if (siblings > maxSiblings)
             {
@@ -76,7 +75,7 @@ namespace Agony.RadialTabs
             var size = ComputeNewSize(parent);
             var radius = ComputeNewRadius(parent, size);
             var maxSiblings = GetPolygonLineCount(radius, size);
-            var index = uGUI_CraftNodeReflector.GetIndex(node);
+            var index = node.index;
             if (siblings > maxSiblings)
             {
                 size = GetPolygonLineSize(radius, siblings);

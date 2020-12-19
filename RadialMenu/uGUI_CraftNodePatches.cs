@@ -1,5 +1,4 @@
-﻿using Agony.Common.Reflection;
-using UnityEngine;
+﻿using UnityEngine;
 using HarmonyLib;
 
 namespace Agony.RadialTabs
@@ -19,7 +18,7 @@ namespace Agony.RadialTabs
                 var foregroundSize = grid.size * (float)Config.IconForegroundSizeMult;
                 icon.SetForegroundSize(foregroundSize, foregroundSize, true);
                 icon.SetBackgroundRadius(grid.size / 2);
-                icon.rectTransform.SetParent(uGUI_CraftNodeReflector.GetView(__instance).iconsCanvas);
+                icon.rectTransform.SetParent(__instance.view.iconsCanvas);
                 icon.SetPosition(grid.parent.Position);
             }
         }
@@ -31,7 +30,7 @@ namespace Agony.RadialTabs
             {
                 if (__instance.icon == null) return;
                 var grid = RadialCell.Create(__instance);
-                var pos = uGUI_CraftNodeReflector.GetVisible(__instance) ? grid.Position : grid.parent.Position;
+                var pos = __instance.visible ? grid.Position : grid.parent.Position;
                 var speed = (grid.radius + grid.size) * (float)Config.AnimationSpeedMult;
                 var fadeDistance = grid.size * (float)Config.AnimationFadeDistanceMult;
                 var anim = new IconMovingAnimation(speed, fadeDistance, pos);
