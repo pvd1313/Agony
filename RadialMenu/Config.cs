@@ -1,8 +1,8 @@
-﻿using Agony.Common;
-using UnityEngine;
-
-namespace Agony.RadialTabs
+﻿namespace Agony.RadialTabs
 {
+    using Agony.Common;
+    using UnityEngine;
+
     internal sealed class Config
     {       
         public static int RootIconSize { get; private set; } = 100;

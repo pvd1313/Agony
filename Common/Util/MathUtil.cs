@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace Agony.Common
+﻿namespace Agony.Common
 {
+    using UnityEngine;
+
     public static class MathUtil
     {
         public static float Sin01(float x)

@@ -1,9 +1,0 @@
-{
-  "Id": "RadialTabs",
-  "DisplayName": "Radial Crafting Tabs",
-  "Author": "PVD-MrPurple6411",
-  "Version": "1.0.0",
-  "Enable": true,
-  "Game": "BelowZero",
-  "AssemblyName": "RadialTabs.dll"
-}

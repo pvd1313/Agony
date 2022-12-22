@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System;
-
-namespace Agony.Common.Animation
+﻿namespace Agony.Common.Animation
 {
+    using UnityEngine;
+    using System;
+
     public sealed class ShaderColorPropertyAnimation : ObjectAnimation<Material>
     {
         private readonly int _propertyID;

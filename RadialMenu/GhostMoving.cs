@@ -1,8 +1,8 @@
-﻿using Agony.Common.Animation;
-using UnityEngine;
-
-namespace Agony.RadialTabs
+﻿namespace Agony.RadialTabs
 {
+    using Agony.Common.Animation;
+    using UnityEngine;
+
     internal sealed class IconMovingAnimation : ObjectAnimation<uGUI_ItemIcon>
     {
         private float _speed;

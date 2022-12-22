@@ -1,10 +1,10 @@
-﻿using System.Reflection;
-using Agony.Common.Animation;
-using UnityEngine;
-using System;
-
-namespace Agony.Defabricator
+﻿namespace Agony.Defabricator
 {
+    using System.Reflection;
+    using Agony.Common.Animation;
+    using UnityEngine;
+    using System;
+
     internal sealed class IconColorAnimation : ObjectAnimation<uGUI_ItemIcon>
     {
         private static readonly FieldInfo foregroundColorNormalFieldInfo = typeof(uGUI_ItemIcon).GetField("foregroundColorNormal", BindingFlags.NonPublic | BindingFlags.Instance);

@@ -1,8 +1,8 @@
-﻿using UnityEngine;
-using System;
-
-namespace Agony.Common.Animation
+﻿namespace Agony.Common.Animation
 {
+    using UnityEngine;
+    using System;
+
     public static class AnimationFuncs
     {
         public static Func<Color, Color> SinusoidalColor(Color min, Color max, float frequency)

@@ -1,13 +1,11 @@
-﻿using Agony.Common.Animation;
-using UnityEngine;
-using System;
-
-using Logger = QModManager.Utility.Logger;
-using UWE;
-using System.Collections;
-
-namespace Agony.Defabricator
+﻿namespace Agony.Defabricator
 {
+    using Agony.Common.Animation;
+    using UnityEngine;
+    using System;
+    using UWE;
+    using System.Collections;
+
     partial class CrafterFX
     {
         partial class WorkbenchFX

@@ -1,8 +1,8 @@
-﻿using System.IO;
-using System.Reflection;
-
-namespace Agony.Common
+﻿namespace Agony.Common
 {
+    using System.IO;
+    using System.Reflection;
+
     public class ConfigUtil
     {
         public static void Read<T>(T config)

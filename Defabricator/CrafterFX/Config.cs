@@ -1,7 +1,7 @@
-﻿using UnityEngine;
-
-namespace Agony.Defabricator
+﻿namespace Agony.Defabricator
 {
+    using UnityEngine;
+
     partial class CrafterFX
     {
         private static class Config

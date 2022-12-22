@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using Agony.Common;
-using HarmonyLib;
-
-namespace Agony.Defabricator
+﻿namespace Agony.Defabricator
 {
+    using System.Collections.Generic;
+    using System.Reflection;
+    using Agony.Common;
+    using HarmonyLib;
+
     internal static partial class CrafterFX
     {
         internal static class Handler
         {
-            [HarmonyPatch(typeof(Crafter), "OnCraftingBegin")]
+            [HarmonyPatch(typeof(Crafter), nameof(Crafter.OnCraftingBegin))]
             private static class CrafterCraftPatch
             {
                 private static void Prefix(Crafter __instance)
@@ -25,7 +25,7 @@ namespace Agony.Defabricator
                 }
             }
 
-            [HarmonyPatch(typeof(Crafter), "CrafterOnDone")]
+            [HarmonyPatch(typeof(Crafter), nameof(Crafter.CrafterOnDone))]
             private static class CrafterOnDone
             {
                 private static void Postfix(Crafter __instance)

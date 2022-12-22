@@ -1,23 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using Agony.Common;
-using Agony.Main;
-using HarmonyLib;
-using QModManager.Utility;
-using SMLHelper.V2.Crafting;
-using SMLHelper.V2.Handlers;
-using UWE;
-using UnityEngine;
-using Logger = QModManager.Utility.Logger;
-#if SUBNAUTICA
-using RecipeData = SMLHelper.V2.Crafting.TechData;
-#endif
-
+﻿
 namespace Agony.Defabricator
 {
-    partial class Main
-    {
+    using System;
+    using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
+    using Agony.Common;
+    using HarmonyLib;
+    using SMLHelper.V2.Crafting;
+    using SMLHelper.V2.Handlers;
+    using UWE;
+    using UnityEngine;
+#if SUBNAUTICA
+    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using BepInEx.Logging;
+    using global::Common;
+#endif
+
         internal static class RecyclingData
         {
             private static readonly HashSet<TechType> blacklist = new HashSet<TechType>(); 
@@ -46,7 +44,7 @@ namespace Agony.Defabricator
                 if (originData == null)
                 {
                     if(!initialRun)
-                        Logger.Log(Logger.Level.Error, $"Failed to load RecipeData for TechType '{originTech}'.");
+                        Logging.Logger.Log(LogLevel.Error, $"Failed to load RecipeData for TechType '{originTech}'.");
                     return false;
                 }
 
@@ -185,5 +183,4 @@ namespace Agony.Defabricator
                 return string.Format(fallback, args);
             }
         }
-    }
 }

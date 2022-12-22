@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
-using System;
-using QModManager.Utility;
-
-namespace Agony.Common.Animation
+﻿namespace Agony.Common.Animation
 {
+    using System.Collections.Generic;
+    using System;
+    using BepInEx.Logging;
+    using Common;
+    using global::Common;
+
     public abstract class ObjectAnimation<TActor> 
         where TActor : UnityEngine.Object
     {
@@ -28,7 +30,7 @@ namespace Agony.Common.Animation
                 }
                 catch(Exception e)
                 {
-                    Logger.Log(Logger.Level.Error, $"{anim}.OnUpdate({actor}).", e);
+                    Logging.Logger.Log(LogLevel.Error, $"{anim}.OnUpdate({actor}).\n"+ e);
                     toRemove.Add(actor);
                 }
             }
@@ -45,14 +47,14 @@ namespace Agony.Common.Animation
                 try { animations[actor].OnStop(actor); }
                 catch (Exception e)
                 {
-                    Logger.Log(Logger.Level.Error, $"{animations[actor]}.OnStop({actor}).", e);
+                    Logging.Logger.Log(LogLevel.Error, $"{animations[actor]}.OnStop({actor}).\n"+ e);
                 }
             }
 
             try { OnStart(actor); }
             catch (Exception e)
             {
-                Logger.Log(Logger.Level.Error, $"{this}.OnStart({actor}).", e);
+                Logging.Logger.Log(LogLevel.Error, $"{this}.OnStart({actor}).\n" + e);
                 return;
             }
             animations[actor] = this;

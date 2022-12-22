@@ -1,14 +1,14 @@
-﻿using SMLHelper.V2.Assets;
-using SMLHelper.V2.Crafting;
-using System.Collections;
-using UnityEngine;
+﻿namespace Agony.Defabricator
+{
+    using SMLHelper.V2.Assets;
+    using SMLHelper.V2.Crafting;
+    using System.Collections;
+    using UnityEngine;
 #if SUBNAUTICA
-using Sprite = Atlas.Sprite;
-using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using Sprite = Atlas.Sprite;
+    using RecipeData = SMLHelper.V2.Crafting.TechData;
 #endif
 
-namespace Agony.Main
-{
     internal class DefabricatedPrefab : Craftable
     {
         TechType Original;
@@ -22,18 +22,13 @@ namespace Agony.Main
 
         public override TechType RequiredForUnlock => Original;
 
-        public override GameObject GetGameObject()
-        {
-            return GameObject.Instantiate(CraftData.GetPrefabForTechType(Original));
-        }
-
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
             CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(Original, false);
             yield return task;
             GameObject prefab = task.GetResult();
 
-            gameObject.Set(GameObject.Instantiate(prefab));
+            gameObject.Set(Object.Instantiate(prefab));
             yield break;
         }
 

@@ -1,7 +1,8 @@
-﻿using UnityEngine;
-
-namespace Agony.RadialTabs
+﻿namespace Agony.RadialTabs
 {
+    using UnityEngine;
+    using uGUI_CraftNode = uGUI_CraftingMenu.Node;
+
     internal sealed class RadialCell
     {
         private static readonly RadialCell InvalidCell = new RadialCell(0, 0, 0, 0, 0, null);
@@ -36,58 +37,59 @@ namespace Agony.RadialTabs
 
         private static RadialCell CreateRootCell(uGUI_CraftNode node)
         {
-            var siblings = node.parent.childCount;
-            var size = (float)Config.RootIconSize;
-            if (siblings <= 1) { return new RadialCell(0, 0, size, float.NaN, siblings, InvalidCell); }
-
-            var index = node.index;
-            var radius = GetPolygonRadius(size, siblings);
-            if (siblings > Config.MaxRootIconCount)
+            int childCount = node.parent.childCount;
+            float lineSize = (float)Config.RootIconSize;
+            if(childCount <= 1)
             {
-                radius = GetPolygonRadius(size, Config.MaxRootIconCount);
-                size = GetPolygonLineSize(radius, siblings);
+                return new RadialCell(0f, 0f, lineSize, float.NaN, childCount, InvalidCell);
             }
-
-            var angleDelta = 2 * Mathf.PI / siblings;
-            var angle = angleDelta * index + GetExtraAngleOffset(siblings);
-            return new RadialCell(radius, angle, size, float.NaN, siblings, InvalidCell);
+            int num = node.parent.IndexOf(node);
+            float polygonRadius = GetPolygonRadius(lineSize, (float)childCount);
+            if(childCount > Config.MaxRootIconCount)
+            {
+                polygonRadius = GetPolygonRadius(lineSize, (float)Config.MaxRootIconCount);
+                lineSize = GetPolygonLineSize(polygonRadius, (float)childCount);
+            }
+            float num2 = 6.2831855f / (float)childCount * (float)num + GetExtraAngleOffset(childCount);
+            return new RadialCell(polygonRadius, num2, lineSize, float.NaN, childCount, InvalidCell);
         }
 
         private static RadialCell CreateChildCellWithOneElementAtRoot(uGUI_CraftNode node, RadialCell parent)
         {
-            var siblings = node.parent.childCount;
-            var size = ComputeNewSize(parent);
-            var radius = ComputeNewRadius(parent, size);
-            var index = node.index;
-            var maxSiblings = GetPolygonLineCount(radius, size);
-            if (siblings > maxSiblings)
+            int childCount = node.parent.childCount;
+            float lineSize = ComputeNewSize(parent);
+            float num = ComputeNewRadius(parent, lineSize);
+            int num2 = node.parent.IndexOf(node);
+            float polygonLineCount = GetPolygonLineCount(num, lineSize);
+            if((float)childCount > polygonLineCount)
             {
-                size = GetPolygonLineSize(radius, siblings);
+                lineSize = GetPolygonLineSize(num, (float)childCount);
             }
-            var angleDelta = 2 * Mathf.PI / siblings;
-            var angle = angleDelta * index + GetExtraAngleOffset(siblings);
-            return new RadialCell(radius, angle, size, float.NaN, siblings, parent);
+            float num3 = 6.2831855f / (float)childCount * (float)num2 + GetExtraAngleOffset(childCount);
+            return new RadialCell(num, num3, lineSize, float.NaN, childCount, parent);
         }
 
         private static RadialCell CreateChildCell(uGUI_CraftNode node, RadialCell parent)
         {
-            var siblings = node.parent.childCount;
-            var size = ComputeNewSize(parent);
-            var radius = ComputeNewRadius(parent, size);
-            var maxSiblings = GetPolygonLineCount(radius, size);
-            var index = node.index;
-            if (siblings > maxSiblings)
+            int childCount = node.parent.childCount;
+            float lineSize = ComputeNewSize(parent);
+            float num = ComputeNewRadius(parent, lineSize);
+            float polygonLineCount = GetPolygonLineCount(num, lineSize);
+            int num2 = node.parent.IndexOf(node);
+            if((float)childCount > polygonLineCount)
             {
-                size = GetPolygonLineSize(radius, siblings);
-                var angleDelta1 = 2 * Mathf.PI / siblings;
-                var angle1 = angleDelta1 * index + GetExtraAngleOffset(siblings);
-                return new RadialCell(radius, angle1, size, float.NaN, siblings, parent);
+                lineSize = GetPolygonLineSize(num, (float)childCount);
+                float num3 = 6.2831855f / (float)childCount * (float)num2 + GetExtraAngleOffset(childCount);
+                return new RadialCell(num, num3, lineSize, float.NaN, childCount, parent);
             }
-            var angleDelta = 2 * Mathf.PI / maxSiblings;
-            var groupAngle = siblings > parent.siblings ? parent.groupAngle : parent.angle;
-            if (float.IsNaN(groupAngle)) { groupAngle = parent.angle; }
-            var angle = groupAngle + angleDelta * (index - (siblings - 1) / 2.0f);
-            return new RadialCell(radius, angle, size, groupAngle, siblings, parent);
+            float num4 = 6.2831855f / polygonLineCount;
+            float num5 = (childCount > parent.siblings) ? parent.groupAngle : parent.angle;
+            if(float.IsNaN(num5))
+            {
+                num5 = parent.angle;
+            }
+            float num6 = num5 + num4 * ((float)num2 - (float)(childCount - 1) / 2f);
+            return new RadialCell(num, num6, lineSize, num5, childCount, parent);
         }
 
         private static float ComputeNewSize(RadialCell parent)

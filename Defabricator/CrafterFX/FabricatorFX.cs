@@ -1,12 +1,11 @@
-﻿using System.Reflection;
-using UnityEngine;
-using System;
-
-using Logger = QModManager.Utility.Logger;
-
-
-namespace Agony.Defabricator
+﻿namespace Agony.Defabricator
 {
+    using System.Reflection;
+    using UnityEngine;
+    using System;
+    using BepInEx.Logging;
+    using global::Common;
+
     partial class CrafterFX
     {
         private static partial class FabricatorFX
@@ -56,7 +55,7 @@ namespace Agony.Defabricator
                 }
                 catch (Exception e)
                 {
-                    Logger.Log(Logger.Level.Error, null, e);
+                    Logging.Logger.Log(LogLevel.Error, e);
                     return false;
                 }
             }
@@ -67,7 +66,7 @@ namespace Agony.Defabricator
                 {
                     fabricator.fabLight.color = color;
                 }
-                catch (Exception e) { Logger.Log(Logger.Level.Error, null, e); }
+                catch (Exception e) { Logging.Logger.Log(LogLevel.Error, e); }
             }
 
             private static void SetFabricatorBeamsMaterial(Fabricator fabricator, Material material)
@@ -77,7 +76,7 @@ namespace Agony.Defabricator
                     fabricator.leftBeam.GetComponent<Renderer>().material = material;
                     fabricator.rightBeam.GetComponent<Renderer>().material = material;
                 }
-                catch (Exception e) { Logger.Log(Logger.Level.Error, null, e); }
+                catch (Exception e) { Logging.Logger.Log(LogLevel.Error, e); }
             }
 
             private static void SetFabricatorParticlesParams(Fabricator fabricator, ParticleSystemParameters @params)
@@ -89,7 +88,7 @@ namespace Agony.Defabricator
                     @params.Apply(sparksL);
                     @params.Apply(sparksR);
                 }
-                catch (Exception e) { Logger.Log(Logger.Level.Error, null, e); }
+                catch (Exception e) { Logging.Logger.Log(LogLevel.Error, e); }
             }
 
             private static bool TryCreateModParticleParams(Fabricator fabricator)
@@ -110,7 +109,7 @@ namespace Agony.Defabricator
                 }
                 catch (Exception e)
                 {
-                    Logger.Log(Logger.Level.Error, null, e);
+                    Logging.Logger.Log(LogLevel.Error, e);
                     return false;
                 }
             }

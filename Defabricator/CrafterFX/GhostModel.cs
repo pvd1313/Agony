@@ -1,15 +1,15 @@
-﻿using System.Collections.Generic;
-using System.Reflection;
-using UnityEngine;
-using HarmonyLib;
-
-namespace Agony.Defabricator
+﻿namespace Agony.Defabricator
 {
+    using System.Collections.Generic;
+    using System.Reflection;
+    using UnityEngine;
+    using HarmonyLib;
+
     partial class CrafterFX
     {
         private static class GhostModel
         {
-            [HarmonyPatch(typeof(CrafterGhostModel), "UpdateProgress")]
+            [HarmonyPatch(typeof(CrafterGhostModel), nameof(CrafterGhostModel.UpdateProgress))]
             private static class CrafterGhostModelUpdateProgressPatch
             {
                 private static void Prefix(CrafterGhostModel __instance, ref float progress)
@@ -20,7 +20,7 @@ namespace Agony.Defabricator
                 }
             }
 
-            [HarmonyPatch(typeof(CrafterGhostModel), "UpdateModel")]
+            [HarmonyPatch(typeof(CrafterGhostModel), nameof(CrafterGhostModel.UpdateModel))]
             private static class CrafterGhostModelUpdateModelPatch
             {
                 private static readonly FieldInfo ghostMaterialsFieldInfo = typeof(CrafterGhostModel).GetField("ghostMaterials", BindingFlags.NonPublic | BindingFlags.Instance);

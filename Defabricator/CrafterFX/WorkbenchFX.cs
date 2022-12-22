@@ -1,11 +1,11 @@
-﻿using System.Reflection;
-using UnityEngine;
-using System;
-
-using Logger = QModManager.Utility.Logger;
-
-namespace Agony.Defabricator
+﻿namespace Agony.Defabricator
 {
+    using System.Reflection;
+    using UnityEngine;
+    using System;
+    using BepInEx.Logging;
+    using global::Common;
+
     partial class CrafterFX
     {
         private static partial class WorkbenchFX
@@ -54,7 +54,7 @@ namespace Agony.Defabricator
                 }
                 catch (Exception e)
                 {
-                    Logger.Log(Logger.Level.Error, null, e);
+                    Logging.Logger.Log(LogLevel.Error, e);
                     return false;
                 }
             }
@@ -65,7 +65,7 @@ namespace Agony.Defabricator
                 {
                     workbench.workingLight.GetComponent<Light>().color = color;
                 }
-                catch (Exception e) { Logger.Log(Logger.Level.Error, null, e); }
+                catch (Exception e) { Logging.Logger.Log(LogLevel.Error, e); }
             }
 
             private static void SetWorkbenchBeamsMaterial(Workbench workbench, Material material)
@@ -75,7 +75,7 @@ namespace Agony.Defabricator
                     foreach (var beam in workbench.fxLaserBeam)
                         beam.GetComponent<Renderer>().material = material;
                 }
-                catch (Exception e) { Logger.Log(Logger.Level.Error, null, e); }
+                catch (Exception e) { Logging.Logger.Log(LogLevel.Error, e); }
             }
 
             private static void SetWorkbenchParticlesParams(Workbench workbench, ParticleSystemParameters @params)
@@ -86,7 +86,7 @@ namespace Agony.Defabricator
                     foreach (var spark in sparks)
                         @params.Apply(spark.GetComponent<ParticleSystem>());
                 }
-                catch (Exception e) { Logger.Log(Logger.Level.Error, null, e); }
+                catch (Exception e) { Logging.Logger.Log(LogLevel.Error, e); }
             }
 
             private static bool TryCreateModParticleParams(Workbench workbench)
@@ -107,7 +107,7 @@ namespace Agony.Defabricator
                 }
                 catch (Exception e)
                 {
-                    Logger.Log(Logger.Level.Error, null, e);
+                    Logging.Logger.Log(LogLevel.Error, e);
                     return false;
                 }
             }

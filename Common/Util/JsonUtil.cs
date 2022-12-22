@@ -1,10 +1,11 @@
-﻿using System.IO;
-using LitJson;
-using System;
-using QModManager.Utility;
-
-namespace Agony.Common
+﻿namespace Agony.Common
 {
+    using System.IO;
+    using LitJson;
+    using System;
+    using BepInEx.Logging;
+    using global::Common;
+
     public static class JsonUtil
     {
         public static bool TryFileToObject<T>(string fileName, out T obj)
@@ -20,7 +21,7 @@ namespace Agony.Common
             }
             catch(Exception e)
             {
-                Logger.Log(Logger.Level.Error, $"File:'{fileName}'.", e);
+                Logging.Logger.Log(LogLevel.Error, $"File:'{fileName}'.\n"+ e);
                 return false;
             }
         }
@@ -41,7 +42,7 @@ namespace Agony.Common
             }
             catch (Exception e)
             {
-                Logger.Log(Logger.Level.Error, $"File:'{fileName}'.", e);
+                Logging.Logger.Log(LogLevel.Error, $"File:'{fileName}'.\n"+ e);
                 return false;
             }
         }
