@@ -9,6 +9,7 @@
     using UnityEngine;
 
     [BepInPlugin(GUID, MODNAME, VERSION)]
+    [BepInDependency("com.ahk1221.smlhelper", BepInDependency.DependencyFlags.HardDependency)]
     public class Main: BaseUnityPlugin
     {
         #region[Declarations]
@@ -26,14 +27,8 @@
         public void Awake()
         {
             Logging.Initialize(Logger);
-            try
-            { 
-                Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "com.pvd.agony.defabricator");
-            }
-            catch (Exception e)
-            {
-                Logger.Log(LogLevel.Error, e);
-            }
+            Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "com.pvd.agony.defabricator");
+            Logger.LogInfo("Patched");
         }
 
         public void Update()

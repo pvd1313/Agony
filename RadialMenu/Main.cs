@@ -8,6 +8,7 @@
     using global::Common;
 
     [BepInPlugin(GUID, MODNAME, VERSION)]
+    [BepInDependency("com.ahk1221.smlhelper", BepInDependency.DependencyFlags.HardDependency)]
     public class Main: BaseUnityPlugin
     {
         #region[Declarations]
