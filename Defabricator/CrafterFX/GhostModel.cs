@@ -5,12 +5,14 @@
     using UnityEngine;
     using HarmonyLib;
 
+    [HarmonyPatch]
     partial class CrafterFX
     {
-        private static class GhostModel
+        [HarmonyPatch]
+        public static class GhostModel
         {
             [HarmonyPatch(typeof(CrafterGhostModel), nameof(CrafterGhostModel.UpdateProgress))]
-            private static class CrafterGhostModelUpdateProgressPatch
+            public static class CrafterGhostModelUpdateProgressPatch
             {
                 private static void Prefix(CrafterGhostModel __instance, ref float progress)
                 {
@@ -21,7 +23,7 @@
             }
 
             [HarmonyPatch(typeof(CrafterGhostModel), nameof(CrafterGhostModel.UpdateModel))]
-            private static class CrafterGhostModelUpdateModelPatch
+            public static class CrafterGhostModelUpdateModelPatch
             {
                 private static readonly FieldInfo ghostMaterialsFieldInfo = typeof(CrafterGhostModel).GetField("ghostMaterials", BindingFlags.NonPublic | BindingFlags.Instance);
 

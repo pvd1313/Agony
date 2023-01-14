@@ -2,7 +2,7 @@
 {
     using System;
     using HarmonyLib;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Handlers;
 
     [HarmonyPatch(typeof(Player), nameof(Player.Awake))]
     public static class Player_Awake_Patch

@@ -7,7 +7,7 @@
     using System.Reflection;
     using UnityEngine;
 
-    internal class Config
+    public class Config
     {
         private sealed class AllItems
         {
@@ -19,10 +19,10 @@
                 if(lang == null)
                     return;
 
-                var techs = (TechType[])Enum.GetValues(typeof(TechType));
+                var techs = Enum.GetValues(typeof(TechType));
                 foreach(var tech in techs)
                 {
-                    var techID = tech.AsString();
+                    var techID = tech.ToString();
                     var text = lang.Get(techID);
                     var tooltip = lang.Get("Tooltip_" + techID);
                     if(text == "" || tooltip == "")

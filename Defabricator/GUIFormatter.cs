@@ -2,7 +2,7 @@
 {
     using UnityEngine;
 
-    internal static class GUIFormatter
+    public static class GUIFormatter
     {
         private const float AnimationDuration = .3f;
         private static readonly Color backColor = new Color(1, 0, 0);

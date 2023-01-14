@@ -4,7 +4,7 @@
 
     partial class CrafterFX
     {
-        private static class Config
+        public static class Config
         {
             public static Color BeamColor { get; private set; } =      new Color(0.8f, 0.2f, 0.3f, 1.0f);
             public static Color BeamAlphaColor { get; private set; } = new Color(0.9f, 0.4f, 0.4f, 0.4f);

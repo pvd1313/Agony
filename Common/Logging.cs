@@ -5,7 +5,7 @@
     using System.Text;
     using BepInEx.Logging;
 
-    internal class Logging
+    public class Logging
     {
         internal static ManualLogSource Logger;
 

@@ -6,17 +6,17 @@ namespace Agony.Defabricator
     using System.Runtime.CompilerServices;
     using Agony.Common;
     using HarmonyLib;
-    using SMLHelper.V2.Crafting;
-    using SMLHelper.V2.Handlers;
+    using SMLHelper.Crafting;
+    using SMLHelper.Handlers;
     using UWE;
     using UnityEngine;
 #if SUBNAUTICA
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMLHelper.Crafting.TechData;
     using BepInEx.Logging;
     using global::Common;
 #endif
 
-        internal static class RecyclingData
+        public static class RecyclingData
         {
             private static readonly HashSet<TechType> blacklist = new HashSet<TechType>(); 
             private static readonly Dictionary<TechType, TechType> cache = new Dictionary<TechType, TechType>();
@@ -62,7 +62,7 @@ namespace Agony.Defabricator
             {
                 if (IsBlackListed(originTech))
                 {
-                    TechType blackListedTech = TechTypeHandler.AddTechType($"Defabricated{originTech}", LoadRecyclingText(originTech), LoadRecyclingTooltip(originTech, null), SpriteManager.Get(originTech), true);
+                    TechType blackListedTech = EnumHandler.AddEntry<TechType>($"Defabricated{originTech}").WithPdaInfo(LoadRecyclingText(originTech), LoadRecyclingTooltip(originTech, null), true).WithIcon(SpriteManager.Get(originTech));
                     CraftDataHandler.SetTechData(blackListedTech, new RecipeData(new List<Ingredient>()));
                     blacklist.Add(blackListedTech);
                     return blackListedTech;

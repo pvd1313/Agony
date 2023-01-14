@@ -1,15 +1,15 @@
 ﻿namespace Agony.Defabricator
 {
-    using SMLHelper.V2.Assets;
-    using SMLHelper.V2.Crafting;
+    using SMLHelper.Assets;
+    using SMLHelper.Crafting;
     using System.Collections;
     using UnityEngine;
 #if SUBNAUTICA
     using Sprite = Atlas.Sprite;
-    using RecipeData = SMLHelper.V2.Crafting.TechData;
+    using RecipeData = SMLHelper.Crafting.TechData;
 #endif
 
-    internal class DefabricatedPrefab : Craftable
+    public class DefabricatedPrefab : Craftable
     {
         TechType Original;
         RecipeData recipeData;

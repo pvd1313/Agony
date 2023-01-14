@@ -9,7 +9,7 @@
     {
         partial class FabricatorFX
         {
-            private static class BeamMaterial
+            public static class BeamMaterial
             {
                 internal static Material original;
                 internal static Material custom;
