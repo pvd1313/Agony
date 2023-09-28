@@ -1,8 +1,7 @@
-﻿namespace Agony.Defabricator;
+﻿namespace Defabricator;
 
-using Agony.Common.Animation;
+using Common.Animation;
 using UnityEngine;
-using System;
 using UWE;
 using System.Collections;
 

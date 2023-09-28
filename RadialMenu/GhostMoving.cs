@@ -1,6 +1,6 @@
-﻿namespace Agony.RadialTabs;
+﻿namespace RadialTabs;
 
-using Agony.Common.Animation;
+using Common.Animation;
 using UnityEngine;
 
 internal sealed class IconMovingAnimation : ObjectAnimation<uGUI_ItemIcon>

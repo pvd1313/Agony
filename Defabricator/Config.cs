@@ -1,7 +1,7 @@
-﻿namespace Agony.Defabricator;
+﻿namespace Defabricator;
 
 using System.Collections.Generic;
-using Agony.Common;
+using Common;
 using System.IO;
 using System;
 using System.Reflection;

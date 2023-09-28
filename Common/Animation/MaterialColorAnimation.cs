@@ -1,4 +1,4 @@
-﻿namespace Agony.Common.Animation;
+﻿namespace Common.Animation;
 
 using UnityEngine;
 using System;

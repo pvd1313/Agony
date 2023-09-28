@@ -1,10 +1,10 @@
-﻿namespace Agony.Defabricator;
+﻿namespace Defabricator;
 
 using System.Reflection;
 using UnityEngine;
 using System;
 using BepInEx.Logging;
-using global::Common;
+using Common;
 
 partial class CrafterFX
 {

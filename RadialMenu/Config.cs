@@ -1,6 +1,6 @@
-﻿namespace Agony.RadialTabs;
+﻿namespace RadialTabs;
 
-using Agony.Common;
+using Common;
 using UnityEngine;
 
 internal sealed class Config

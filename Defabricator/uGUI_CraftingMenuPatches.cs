@@ -1,4 +1,4 @@
-﻿namespace Agony.Defabricator;
+﻿namespace Defabricator;
 
 using HarmonyLib;
 

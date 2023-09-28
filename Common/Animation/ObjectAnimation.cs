@@ -1,10 +1,9 @@
-﻿namespace Agony.Common.Animation;
+﻿namespace Common.Animation;
 
 using System.Collections.Generic;
 using System;
 using BepInEx.Logging;
 using Common;
-using global::Common;
 
 public abstract class ObjectAnimation<TActor> 
     where TActor : UnityEngine.Object

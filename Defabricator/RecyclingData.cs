@@ -1,13 +1,12 @@
 ﻿
-namespace Agony.Defabricator;
+namespace Defabricator;
 
 using System;
 using System.Collections.Generic;
-using HarmonyLib;
 using UnityEngine;
 using Nautilus.Crafting;
 using Nautilus.Handlers;
-using global::Common;
+using Common;
 using BepInEx.Logging;
 #if SUBNAUTICA
 using static CraftData;

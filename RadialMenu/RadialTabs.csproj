@@ -1,31 +1,25 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup>
-		<TargetFramework>net472</TargetFramework>
+		<AssemblyName>RadialTabs</AssemblyName>
+		<Product>RadialTabs</Product>
+		<Version>1.0.0.0</Version>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
 		<AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
-		<RootNamespace>Agony</RootNamespace>
-		<AssemblyName>RadialTabs</AssemblyName>
 		<OutputPath>$(SolutionDir)bin\$(Configuration)\$(AssemblyName)\</OutputPath>
-		<LangVersion>11</LangVersion>
-		<Deterministic>true</Deterministic>
-		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-		<Optimize>true</Optimize>
 		<Configurations>Subnautica;BelowZero</Configurations>
-		<Platforms>AnyCPU</Platforms>
+		<TargetFramework>net472</TargetFramework>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<RestoreAdditionalProjectSources>
 			https://nuget.bepinex.dev/v3/index.json
 		</RestoreAdditionalProjectSources>
+		<LangVersion>11</LangVersion>
 		<DebugType>embedded</DebugType>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'BelowZero|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)' == 'BelowZero'">
 		<DefineConstants>TRACE;BELOWZERO</DefineConstants>
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<ErrorReport>prompt</ErrorReport>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Subnautica|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)' == 'Subnautica'">
 		<DefineConstants>TRACE;SUBNAUTICA</DefineConstants>
-		<PlatformTarget>AnyCPU</PlatformTarget>
-		<ErrorReport>prompt</ErrorReport>
 	</PropertyGroup>
 	<ItemDefinitionGroup>
 		<PackageReference ExcludeAssets="runtime" />
@@ -36,6 +30,12 @@
 	</ItemGroup>
 	<ItemGroup Condition="'$(Configuration)'=='BelowZero'">
 		<PackageReference Include="SubnauticaZero.Nautilus" Version="*-*" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="BepInEx.Analyzers" Version="1.*" PrivateAssets="all" />
+		<PackageReference Include="BepInEx.PluginInfoProps" Version="2.*" />
+		<PackageReference Include="PolySharp" Version="1.13.1" />
 	</ItemGroup>
 	<ItemGroup>
 		<Content Include="Changelog.txt" />

@@ -1,4 +1,4 @@
-﻿namespace Agony.RadialTabs;
+﻿namespace RadialTabs;
 
 using UnityEngine;
 using uGUI_CraftNode = uGUI_CraftingMenu.Node;

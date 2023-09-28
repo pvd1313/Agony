@@ -1,28 +1,25 @@
-﻿namespace Agony.Defabricator;
+﻿namespace Defabricator;
 
 using System.Reflection;
 using HarmonyLib;
 using System;
 using BepInEx;
-using BepInEx.Logging;
-using global::Common;
+using Common;
 using UnityEngine;
+using BepInEx.Configuration;
 
-[BepInPlugin(GUID, MODNAME, VERSION)]
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 [BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.HardDependency)]
 public class Main: BaseUnityPlugin
 {
-    #region[Declarations]
+    private KeyCode ActivationKey => ActivationKeyEntry.Value;
 
-    public const string
-        MODNAME = "Defabricator",
-        AUTHOR = "PVD-MrPurple6411",
-        GUID = "com.pvd.agony.defabricator",
-        VERSION = "1.0.0.0";
+    public ConfigEntry<KeyCode> ActivationKeyEntry { get; init; }
 
-    private const KeyCode ActivationKey = KeyCode.C;
-
-    #endregion
+    public Main()
+    {
+        ActivationKeyEntry = Config.Bind("Defabricator", "Activator", KeyCode.C, "The key to press in order to activate the Defabrication menu.");
+    }
 
     public void Awake()
     {
@@ -33,13 +30,16 @@ public class Main: BaseUnityPlugin
 
     public void Update()
     {
-        if(Input.GetKeyDown(ActivationKey))
-        {
-            if(!Active)
-            { Activate(); }
-            else
-            { Deactivate(); }
-        }
+        if (!uGUI_CraftingMenuPatches.CurrentMenu)
+            return;
+
+        if (!Input.GetKeyDown(ActivationKey))
+            return;
+
+        if (!Active)
+            Activate();
+        else
+            Deactivate();
     }
 
     public static bool Active { get; private set; }
@@ -51,8 +51,6 @@ public class Main: BaseUnityPlugin
     internal static void Activate()
     {
         if(Active)
-            return;
-        if(!uGUI_CraftingMenuPatches.CurrentMenu)
             return;
         Active = true;
 

@@ -1,4 +1,4 @@
-﻿namespace Agony.Common;
+﻿namespace Common;
 
 using System.IO;
 using System.Reflection;

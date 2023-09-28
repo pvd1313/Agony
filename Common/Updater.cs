@@ -1,4 +1,4 @@
-﻿namespace Agony.Common;
+﻿namespace Common;
 
 using UnityEngine.SceneManagement;
 using UnityEngine;

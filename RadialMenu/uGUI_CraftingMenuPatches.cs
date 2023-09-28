@@ -1,4 +1,4 @@
-﻿namespace Agony.RadialTabs;
+﻿namespace RadialTabs;
 
 using HarmonyLib;
 using UnityEngine;

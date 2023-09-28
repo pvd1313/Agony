@@ -1,9 +1,8 @@
-﻿namespace Agony.Common;
+﻿namespace Common;
 
 using System.IO;
 using System;
 using BepInEx.Logging;
-using global::Common;
 using Newtonsoft.Json;
 
 public static class JsonUtil

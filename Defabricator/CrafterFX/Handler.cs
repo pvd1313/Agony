@@ -1,8 +1,6 @@
-﻿namespace Agony.Defabricator;
+﻿namespace Defabricator;
 
 using System.Collections.Generic;
-using System.Reflection;
-using Agony.Common;
 using HarmonyLib;
 
 [HarmonyPatch]

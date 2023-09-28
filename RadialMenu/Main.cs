@@ -1,25 +1,15 @@
-﻿namespace Agony.RadialTabs;
+﻿namespace RadialTabs;
 
 using System.Reflection;
 using HarmonyLib;
 using System;
 using BepInEx;
 using BepInEx.Logging;
-using global::Common;
+using Common;
 
-[BepInPlugin(GUID, MODNAME, VERSION)]
+[BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
 public class Main: BaseUnityPlugin
 {
-    #region[Declarations]
-
-    public const string
-        MODNAME = "RadialTabs",
-        AUTHOR = "PVD-MrPurple6411",
-        GUID = "com.pvd.agony.radialcraftingtabs",
-        VERSION = "1.0.0.0";
-
-    #endregion
-
     public void Awake()
     {
         Logging.Initialize(Logger);
