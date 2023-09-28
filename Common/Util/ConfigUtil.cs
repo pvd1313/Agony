@@ -1,27 +1,27 @@
-﻿namespace Agony.Common
+﻿namespace Agony.Common;
+
+using System.IO;
+using System.Reflection;
+
+public class ConfigUtil
 {
-    using System.IO;
-    using System.Reflection;
-
-    public class ConfigUtil
+    public static void Read<T>(ref T config)
     {
-        public static void Read<T>(T config)
-        {
-            var file = GetConfigPath(config);
+        var file = GetConfigPath(config);
+        if(File.Exists(file))
             JsonUtil.TryFileToObject(file, out config);
-        }
+    }
 
-        public static void Write<T>(T config)
-        {
-            var file = GetConfigPath(config);
-            JsonUtil.TryObjectToFile(config, file);
-        }
+    public static void Write<T>(T config)
+    {
+        var file = GetConfigPath(config);
+        JsonUtil.TryObjectToFile(config, file);
+    }
 
-        private static string GetConfigPath<T>(T config)
-        {
-            var type = config.GetType();
-            var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-            return Path.Combine(path, $@"Config\{type.FullName}.json");
-        }
+    private static string GetConfigPath<T>(T config)
+    {
+        var type = config.GetType();
+        var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        return Path.Combine(path, $@"Config\{type.FullName}.json");
     }
 }

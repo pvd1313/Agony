@@ -1,32 +1,27 @@
-﻿namespace Agony.Defabricator
-{
-    using System;
-    using HarmonyLib;
-    using SMLHelper.Handlers;
+﻿namespace Agony.Defabricator;
 
-    [HarmonyPatch(typeof(Player), nameof(Player.Awake))]
-    public static class Player_Awake_Patch
+using System;
+using HarmonyLib;
+using Nautilus.Handlers;
+
+[HarmonyPatch(typeof(Player), nameof(Player.Awake))]
+public static class Player_Awake_Patch
+{
+    [HarmonyPostfix]
+    public static void Postfix()
     {
-        [HarmonyPostfix]
-        public static void Postfix()
+        foreach(TechType techType in Enum.GetValues(typeof(TechType)))
         {
-            foreach(TechType techType in Enum.GetValues(typeof(TechType)))
+            if (CraftDataHandler.GetRecipeData(techType) != null)
             {
-#if SUBNAUTICA
-                if(CraftDataHandler.GetTechData(techType) != null)
-#elif BELOWZERO
-                if (CraftDataHandler.GetRecipeData(techType) != null)
-#endif
-                {
-                    RecyclingData.TryGet(techType, out TechType recyclingTech, true);
-                }
+                RecyclingData.TryGet(techType, out TechType recyclingTech, true);
             }
+        }
 
 #if BELOWZERO
-                TechData.Cache();
+        TechData.Cache();
 #endif
-            CraftData.RebuildDatabase();
-            Language.main.LoadLanguageFile(Language.main.GetCurrentLanguage());
-        }
+        CraftData.RebuildDatabase();
+        Language.main.LoadLanguageFile(Language.main.GetCurrentLanguage());
     }
 }

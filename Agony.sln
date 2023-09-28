@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RadialTabs", "RadialMenu\RadialTabs.csproj", "{C55CE7C5-88DB-4475-A03D-BDC384F2D683}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RadialTabs", "RadialMenu\RadialTabs.csproj", "{C55CE7C5-88DB-4475-A03D-BDC384F2D683}"
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "Common", "Common\Common.shproj", "{12CB5F8C-3958-4FF9-8365-B7CF48B02883}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Defabricator", "Defabricator\Defabricator.csproj", "{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Defabricator", "Defabricator\Defabricator.csproj", "{0A72DB9C-0271-4ABE-9F5F-25BD4D77D720}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CC50E758-E417-4CCC-A5C2-BAD45368C317}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C155EB5-3C7C-4DA4-8FD4-50DAE018D823}"
 	ProjectSection(SolutionItems) = preProject
-		GameDir.targets = GameDir.targets
+		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
 Global
@@ -36,8 +36,8 @@ Global
 		SolutionGuid = {B87E9099-CF07-40FC-8811-3F39682A6884}
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
-		Common\Common.projitems*{0a72db9c-0271-4abe-9f5f-25bd4d77d720}*SharedItemsImports = 4
+		Common\Common.projitems*{0a72db9c-0271-4abe-9f5f-25bd4d77d720}*SharedItemsImports = 5
 		Common\Common.projitems*{12cb5f8c-3958-4ff9-8365-b7cf48b02883}*SharedItemsImports = 13
-		Common\Common.projitems*{c55ce7c5-88db-4475-a03d-bdc384f2d683}*SharedItemsImports = 4
+		Common\Common.projitems*{c55ce7c5-88db-4475-a03d-bdc384f2d683}*SharedItemsImports = 5
 	EndGlobalSection
 EndGlobal

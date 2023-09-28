@@ -1,46 +1,45 @@
-﻿namespace Agony.Defabricator
+﻿namespace Agony.Defabricator;
+
+using System.Collections.Generic;
+using System.Reflection;
+using UnityEngine;
+using HarmonyLib;
+
+[HarmonyPatch]
+partial class CrafterFX
 {
-    using System.Collections.Generic;
-    using System.Reflection;
-    using UnityEngine;
-    using HarmonyLib;
-
     [HarmonyPatch]
-    partial class CrafterFX
+    public static class GhostModel
     {
-        [HarmonyPatch]
-        public static class GhostModel
+        [HarmonyPatch(typeof(CrafterGhostModel), nameof(CrafterGhostModel.UpdateProgress))]
+        public static class CrafterGhostModelUpdateProgressPatch
         {
-            [HarmonyPatch(typeof(CrafterGhostModel), nameof(CrafterGhostModel.UpdateProgress))]
-            public static class CrafterGhostModelUpdateProgressPatch
+            private static void Prefix(CrafterGhostModel __instance, ref float progress)
             {
-                private static void Prefix(CrafterGhostModel __instance, ref float progress)
-                {
-                    var crafter = __instance.GetComponent<Crafter>();
-                    if (!Handler.IsModified(crafter)) return;
-                    progress = 1 - progress;
-                }
+                var crafter = __instance.GetComponent<Crafter>();
+                if (!Handler.IsModified(crafter)) return;
+                progress = 1 - progress;
             }
+        }
 
-            [HarmonyPatch(typeof(CrafterGhostModel), nameof(CrafterGhostModel.UpdateModel))]
-            public static class CrafterGhostModelUpdateModelPatch
+        [HarmonyPatch(typeof(CrafterGhostModel), nameof(CrafterGhostModel.UpdateModel))]
+        public static class CrafterGhostModelUpdateModelPatch
+        {
+            private static readonly FieldInfo ghostMaterialsFieldInfo = typeof(CrafterGhostModel).GetField("ghostMaterials", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            private static void Postfix(CrafterGhostModel __instance)
             {
-                private static readonly FieldInfo ghostMaterialsFieldInfo = typeof(CrafterGhostModel).GetField("ghostMaterials", BindingFlags.NonPublic | BindingFlags.Instance);
+                var crafter = __instance.GetComponent<Crafter>();
+                if (!Handler.IsModified(crafter)) return;
 
-                private static void Postfix(CrafterGhostModel __instance)
+                foreach (var mat in (List<Material>)ghostMaterialsFieldInfo.GetValue(__instance))
                 {
-                    var crafter = __instance.GetComponent<Crafter>();
-                    if (!Handler.IsModified(crafter)) return;
-
-                    foreach (var mat in (List<Material>)ghostMaterialsFieldInfo.GetValue(__instance))
+                    if (mat.name != "DontRender")
                     {
-                        if (mat.name != "DontRender")
-                        {
-                            mat.SetColor(ShaderPropertyID._BorderColor, Config.GhostColor);
-                        }
+                        mat.SetColor(ShaderPropertyID._BorderColor, Config.GhostColor);
                     }
                 }
             }
         }
-    }  
-}
+    }
+}  

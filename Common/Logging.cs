@@ -1,17 +1,16 @@
-﻿namespace Common
+﻿namespace Common;
+
+using System;
+using System.Collections.Generic;
+using System.Text;
+using BepInEx.Logging;
+
+public class Logging
 {
-    using System;
-    using System.Collections.Generic;
-    using System.Text;
-    using BepInEx.Logging;
+    internal static ManualLogSource Logger;
 
-    public class Logging
+    public static void Initialize(ManualLogSource logSource)
     {
-        internal static ManualLogSource Logger;
-
-        public static void Initialize(ManualLogSource logSource)
-        {
-            Logger = logSource;
-        }
+        Logger = logSource;
     }
 }
