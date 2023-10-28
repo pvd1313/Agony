@@ -48,6 +48,7 @@ public class Main: BaseUnityPlugin
     {
         return Active && crafter && (crafter as ITreeActionReceiver) == uGUI_CraftingMenuPatches.CurrentMenu.client;
     }
+
     internal static void Activate()
     {
         if(Active)
@@ -59,9 +60,9 @@ public class Main: BaseUnityPlugin
 
         if(menuRoot != null)
         {
-            ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
+            ForeachChildRecursively(menuRoot, ReplaceNodeTech);
             uGUI_CraftingMenuPatches.CurrentMenu.UpdateNotifications(menuRoot, ref c, ref n);
-            ForeachChildRecursively(menuRoot, x => GUIFormatter.PaintNodeColorAnimated(x));
+            ForeachChildRecursively(menuRoot, GUIFormatter.PaintNodeColorAnimated);
         }
     }
 
@@ -76,9 +77,9 @@ public class Main: BaseUnityPlugin
 
         if(menuRoot != null)
         {
-            ForeachChildRecursively(menuRoot, x => ReplaceNodeTech(x));
+            ForeachChildRecursively(menuRoot, ReplaceNodeTech);
             uGUI_CraftingMenuPatches.CurrentMenu.UpdateNotifications(menuRoot, ref c, ref n);
-            ForeachChildRecursively(menuRoot, x => GUIFormatter.RevertNodeColorAnimated(x));
+            ForeachChildRecursively(menuRoot, GUIFormatter.RevertNodeColorAnimated);
         }
     }
 
@@ -98,18 +99,7 @@ public class Main: BaseUnityPlugin
         if(node.action != TreeAction.Craft)
             return;
 
-        if(!node.techType.ToString().StartsWith("Defabricated") && RecyclingData.TryGet(node.techType, out TechType recyclingTech))
-        {
-            node.techType = recyclingTech;
-        }
-        else if(node.techType.ToString().StartsWith("Defabricated"))
-        {
-            TechTypeExtensions.FromString(node.techType.ToString().Replace("Defabricated", ""), out TechType original, true);
-            node.techType = original;
-        }
-        else
-        {
-            ErrorMessage.AddMessage($"Failed to change {node.techType}");
-        }
+        if(RecyclingData.TryGet(node.techType, out TechType alternateTech))
+            node.techType = alternateTech;
     }
 }

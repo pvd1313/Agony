@@ -5,4 +5,4 @@
 
 using System.Diagnostics.CodeAnalysis;
 
-[assembly: SuppressMessage("Style", "IDE0161:Convert to file-scoped namespace", Justification = "Auto Generated Bepinex File just regenerates as its make using an older LangVer", Scope = "namespace", Target = "~N:Defabricator")]
+[assembly: SuppressMessage("Style", "IDE0161:Convert to file-scoped namespace", Justification = "Auto Generated Bepinex File just regenerates as its made using an older LangVer", Scope = "namespace", Target = "~N:Defabricator")]

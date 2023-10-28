@@ -10,12 +10,18 @@ using Common;
 using BepInEx.Logging;
 #if SUBNAUTICA
 using static CraftData;
+using Nautilus.Assets.PrefabTemplates;
+using static UnityEngine.UI.Image;
+using static UWE.FreezeTime;
+using Nautilus.Assets;
+using Nautilus.Assets.Gadgets;
 #endif
 
 public static class RecyclingData
 {
     private static readonly HashSet<TechType> blacklist = new();
     private static readonly Dictionary<TechType, TechType> cache = new();
+    internal static readonly Dictionary<TechType, TechType> reverseCache = new();
     private static readonly string nonRecyclableText = "<color=#FF3030FF>Non-recyclable</color>";
     private static readonly string nonRecyclableTooltip = "Unfortunately there are no techniques that could be used in order to recycle this item.";
     private static readonly string recycleText = "<color=#00FA00FF>Recycle: </color> {0}";
@@ -27,25 +33,25 @@ public static class RecyclingData
 
     public static bool IsBlackListed(TechType recyclingTech) => blacklist.Contains(recyclingTech);
 
-    public static bool TryGet(TechType originTech, out TechType recyclingTech, bool initialRun = false)
+    public static bool TryGet(TechType originTech, out TechType alternateTech)
     {
-        recyclingTech = TechType.None;
+        alternateTech = TechType.None;
         if (originTech == TechType.None) { return false; }
-        if (cache.TryGetValue(originTech, out recyclingTech)) { return true; }
+        if (cache.TryGetValue(originTech, out alternateTech)) { return Main.Active; }
+        if (reverseCache.TryGetValue(originTech, out alternateTech)) { return !Main.Active; }
+        if(!KnownTech.Contains(originTech)) { return false; }
+
         RecipeData originData = CraftDataHandler.GetRecipeData(originTech);
         if (originData == null)
-        {
-            if (!initialRun)
-                Logging.Logger.Log(LogLevel.Error, $"Failed to load RecipeData for TechType '{originTech}'.");
             return false;
-        }
 
         if (Config.IsBlacklisted(originTech))
-        { blacklist.Add(originTech); }
-        recyclingTech = CreateRecyclingData(originTech, originData);
-        cache[originTech] = recyclingTech;
+            blacklist.Add(originTech);
 
-        return true;
+        alternateTech = CreateRecyclingData(originTech, originData);
+        cache[originTech] = alternateTech;
+        reverseCache[alternateTech] = originTech;
+        return Main.Active;
     }
 
     private static TechType CreateRecyclingData(TechType originTech, RecipeData originData)
@@ -77,38 +83,13 @@ public static class RecyclingData
             var amount = Mathf.FloorToInt(ing.amount * Config.GetYield(ing.techType));
             for (var j = 0; j < amount; j++) { linkedItems.Add(ing.techType); }
         }
+
         RecipeData Data = new() { craftAmount = 0, Ingredients = resIngs, LinkedItems = linkedItems };
-        DefabricatedPrefab defabricatedPrefab = new($"Defabricated{originTech}", LoadRecyclingText(originTech), LoadRecyclingTooltip(originTech, Data), originTech, Data);
-
-//#if SUBNAUTICA
-//            Dictionary<string, Atlas> nameToAtlas = AccessTools.Field(typeof(Atlas), "nameToAtlas").GetValue(null) as Dictionary<string, Atlas>;
-
-//            foreach (Atlas atlas in nameToAtlas.Values)
-//            {
-//                Atlas.Sprite sprite = atlas.GetSprite(originTech.AsString());
-//                if(sprite != null)
-//                {
-//                    atlas.nameToSprite[defabricatedPrefab.Info.TechType.AsString()] = sprite;
-//                    break;
-//                }
-//            }
-				
-//#elif BELOWZERO
-//        Dictionary<string, Dictionary<string, Sprite>> atlases = AccessTools.Field(typeof(SpriteManager), "atlases").GetValue(null) as Dictionary<string, Dictionary<string, Sprite>>;
-
-//        foreach (Dictionary<string, Sprite> atlas in atlases.Values)
-//        {
-//            if (atlas.TryGetValue(originTech.AsString(), out Sprite sprite))
-//            {
-//                atlas[defabricatedPrefab.Info.TechType.AsString()] = sprite;
-//                break;
-//            }
-//        }
-//#endif
-        if (IsBlackListed(originTech))
-        {
-            blacklist.Add(defabricatedPrefab.Info.TechType);
-        }
+        CustomPrefab defabricatedPrefab = new($"Defabricated{originTech}", LoadRecyclingText(originTech), LoadRecyclingTooltip(originTech, Data), SpriteManager.Get(originTech));
+        CraftDataHandler.SetRecipeData(defabricatedPrefab.Info.TechType, Data);
+        defabricatedPrefab.SetGameObject(new CloneTemplate(defabricatedPrefab.Info, originTech));
+        defabricatedPrefab.Register();
+        KnownTech.Add(defabricatedPrefab.Info.TechType, true);
 
         return defabricatedPrefab.Info.TechType;
     }
@@ -119,22 +100,16 @@ public static class RecyclingData
         var formated = FormatWithFallback(recycleText, techName, techName);
 
         if (IsBlackListed(originTech))
-        {
             formated = nonRecyclableText;
-        }
 
         return formated;
     }
 
     private static string LoadRecyclingTooltip(TechType originTech, RecipeData data)
     {
-        if (IsBlackListed(originTech))
-        {
+        if (IsBlackListed(originTech) || data == null)
             return nonRecyclableTooltip;
-        }
 
-        if (data == null)
-            return nonRecyclableTooltip;
         var ings = new Dictionary<TechType, int>();
         for (var i = 0; i < data.linkedItemCount; i++)
         {
