@@ -1,12 +1,11 @@
-﻿using UnityEngine;
+﻿namespace Common;
 
-namespace Agony.Common
+using UnityEngine;
+
+public static class MathUtil
 {
-    public static class MathUtil
+    public static float Sin01(float x)
     {
-        public static float Sin01(float x)
-        {
-            return (Mathf.Sin(x) + 1) / 2;
-        }
+        return (Mathf.Sin(x) + 1) / 2;
     }
 }

@@ -12,6 +12,7 @@
     <Compile Include="$(MSBuildThisFileDirectory)Animation\AnimationFuncs.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animation\MaterialColorAnimation.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Animation\ObjectAnimation.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Logging.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Updater.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\ConfigUtil.cs" />
     <Compile Include="$(MSBuildThisFileDirectory)Util\JsonUtil.cs" />

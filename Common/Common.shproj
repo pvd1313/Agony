@@ -12,7 +12,6 @@
     <Compile Include="Animation\AnimationFuncs.cs" />
     <Compile Include="Animation\MaterialColorAnimation.cs" />
     <Compile Include="Animation\ObjectAnimation.cs" />
-    <Compile Include="Updater.cs" />
     <Compile Include="Util\ConfigUtil.cs" />
     <Compile Include="Util\JsonUtil.cs" />
     <Compile Include="Util\MathUtil.cs" />
