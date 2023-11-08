@@ -7,9 +7,13 @@ using BepInEx;
 using Common;
 using UnityEngine;
 using BepInEx.Configuration;
+using System.Collections;
 
 [BepInPlugin(MyPluginInfo.PLUGIN_GUID, MyPluginInfo.PLUGIN_NAME, MyPluginInfo.PLUGIN_VERSION)]
-[BepInDependency("com.snmodding.nautilus", BepInDependency.DependencyFlags.HardDependency)]
+[BepInDependency(Nautilus.PluginInfo.PLUGIN_GUID, Nautilus.PluginInfo.PLUGIN_VERSION)]
+[BepInIncompatibility("com.ahk1221.smlhelper")]
+[BepInDependency("com.mrpurple6411.CustomCraft3", BepInDependency.DependencyFlags.SoftDependency)]
+[BepInDependency("com.mrpurple6411.AIOFabricator", BepInDependency.DependencyFlags.SoftDependency)]
 public class Main: BaseUnityPlugin
 {
     private KeyCode ActivationKey => ActivationKeyEntry.Value;
@@ -24,8 +28,46 @@ public class Main: BaseUnityPlugin
     public void Awake()
     {
         Logging.Initialize(Logger);
-        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), "com.pvd.agony.defabricator");
+        Harmony.CreateAndPatchAll(Assembly.GetExecutingAssembly(), MyPluginInfo.PLUGIN_GUID);
         Logger.LogInfo("Patched");
+    }
+
+    internal static bool Initialized = false;
+
+    public IEnumerator Start()
+    {
+        foreach (CraftTree.Type type in Enum.GetValues(typeof(CraftTree.Type)))
+        {
+            var tree = CraftTree.GetTree(type);
+            if (tree == null)
+                continue;
+
+            foreach (var node in tree.nodes)
+                yield return RecursivlyCreateDefabricatedTechTypes(node);
+        }
+
+        Initialized = true;
+    }
+
+    private IEnumerator RecursivlyCreateDefabricatedTechTypes(TreeNode node)
+    {
+        if (node is not CraftNode craftNode)
+        {
+            Logger.LogDebug($"{node.id} is not a CraftNode");
+            yield break;
+        }
+
+        if (craftNode.action != TreeAction.Craft)
+        {
+            foreach (var child in craftNode.nodes)
+                    yield return RecursivlyCreateDefabricatedTechTypes(child);
+            yield break;
+        }
+
+        string techString = craftNode.techType0.AsString();
+        if (craftNode.techType0 != TechType.None && (RecyclingData.TryGet(craftNode.techType0, out var alternateTech) || alternateTech != TechType.None))
+            Logger.LogDebug($"Successfully setup alternate tech {Language.main.GetOrFallback(techString, techString)}");
+        yield return null;
     }
 
     public void Update()

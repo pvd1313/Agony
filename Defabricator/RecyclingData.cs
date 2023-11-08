@@ -6,15 +6,11 @@ using System.Collections.Generic;
 using UnityEngine;
 using Nautilus.Crafting;
 using Nautilus.Handlers;
-using Common;
-using BepInEx.Logging;
+using Nautilus.Assets.PrefabTemplates;
+using Nautilus.Assets;
 #if SUBNAUTICA
 using static CraftData;
-using Nautilus.Assets.PrefabTemplates;
-using static UnityEngine.UI.Image;
-using static UWE.FreezeTime;
-using Nautilus.Assets;
-using Nautilus.Assets.Gadgets;
+using System.Linq;
 #endif
 
 public static class RecyclingData
@@ -37,16 +33,28 @@ public static class RecyclingData
     {
         alternateTech = TechType.None;
         if (originTech == TechType.None) { return false; }
-        if (cache.TryGetValue(originTech, out alternateTech)) { return Main.Active; }
-        if (reverseCache.TryGetValue(originTech, out alternateTech)) { return !Main.Active; }
-        if(!KnownTech.Contains(originTech)) { return false; }
+        if (Main.Initialized && !CrafterLogic.IsCraftRecipeUnlocked(originTech)) 
+        {
+                return false; 
+        }
+
+        if (cache.TryGetValue(originTech, out alternateTech))
+        {
+            if (!Main.Initialized)
+                alternateTech = TechType.None;
+            return Main.Active;
+        }
+
+        if (reverseCache.TryGetValue(originTech, out alternateTech)) 
+        {
+            if (!Main.Initialized)
+                alternateTech = TechType.None;
+            return !Main.Active; 
+        }
 
         RecipeData originData = CraftDataHandler.GetRecipeData(originTech);
         if (originData == null)
             return false;
-
-        if (Config.IsBlacklisted(originTech))
-            blacklist.Add(originTech);
 
         alternateTech = CreateRecyclingData(originTech, originData);
         cache[originTech] = alternateTech;
@@ -56,8 +64,9 @@ public static class RecyclingData
 
     private static TechType CreateRecyclingData(TechType originTech, RecipeData originData)
     {
-        if (IsBlackListed(originTech))
+        if (Config.IsBlacklisted(originTech))
         {
+            blacklist.Add(originTech);
             TechType blackListedTech = EnumHandler.AddEntry<TechType>($"Defabricated{originTech}")
             .WithPdaInfo(LoadRecyclingText(originTech), LoadRecyclingTooltip(originTech, null))
             .WithIcon(SpriteManager.Get(originTech));
@@ -87,9 +96,11 @@ public static class RecyclingData
         RecipeData Data = new() { craftAmount = 0, Ingredients = resIngs, LinkedItems = linkedItems };
         CustomPrefab defabricatedPrefab = new($"Defabricated{originTech}", LoadRecyclingText(originTech), LoadRecyclingTooltip(originTech, Data), SpriteManager.Get(originTech));
         CraftDataHandler.SetRecipeData(defabricatedPrefab.Info.TechType, Data);
-        defabricatedPrefab.SetGameObject(new CloneTemplate(defabricatedPrefab.Info, originTech));
+        defabricatedPrefab.SetGameObject(new CloneTemplate(defabricatedPrefab.Info, originTech)
+        {
+            ModifyPrefab = (go) => go.SetActive(false)
+        });
         defabricatedPrefab.Register();
-        KnownTech.Add(defabricatedPrefab.Info.TechType, true);
 
         return defabricatedPrefab.Info.TechType;
     }
