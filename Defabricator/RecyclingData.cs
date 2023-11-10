@@ -33,15 +33,21 @@ public static class RecyclingData
     {
         alternateTech = TechType.None;
         if (originTech == TechType.None) { return false; }
-        if (Main.Initialized && !CrafterLogic.IsCraftRecipeUnlocked(originTech)) 
+        if (Main.Initialized && Main.Active && !CrafterLogic.IsCraftRecipeUnlocked(originTech)) 
         {
-                return false; 
+            return false; 
         }
 
         if (cache.TryGetValue(originTech, out alternateTech))
         {
             if (!Main.Initialized)
                 alternateTech = TechType.None;
+            else if (!KnownTech.Contains(alternateTech))
+                KnownTech.Add(alternateTech,
+#if BELOWZERO
+                    false,
+#endif                    
+                    false);
             return Main.Active;
         }
 
@@ -58,7 +64,15 @@ public static class RecyclingData
 
         alternateTech = CreateRecyclingData(originTech, originData);
         cache[originTech] = alternateTech;
-        reverseCache[alternateTech] = originTech;
+        reverseCache[alternateTech] = originTech; 
+        
+        if (Main.Initialized && !KnownTech.Contains(alternateTech))
+            KnownTech.Add(alternateTech,
+#if BELOWZERO
+                false,
+#endif
+                false);
+
         return Main.Active;
     }
 
