@@ -36,6 +36,8 @@ public class Main: BaseUnityPlugin
 
     public IEnumerator Start()
     {
+        yield return new WaitUntil(() => CraftData.cacheInitialized && CraftTree.initialized);
+        yield return new WaitForEndOfFrame();
         foreach (CraftTree.Type type in Enum.GetValues(typeof(CraftTree.Type)))
         {
             var tree = CraftTree.GetTree(type);
@@ -67,7 +69,7 @@ public class Main: BaseUnityPlugin
         string techString = craftNode.techType0.AsString();
         if (craftNode.techType0 != TechType.None && (RecyclingData.TryGet(craftNode.techType0, out var alternateTech) || alternateTech != TechType.None))
             Logger.LogDebug($"Successfully setup alternate tech {Language.main.GetOrFallback(techString, techString)}");
-        yield return null;
+        yield break;
     }
 
     public void Update()
