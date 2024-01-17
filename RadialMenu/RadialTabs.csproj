@@ -41,5 +41,5 @@
 	<ItemGroup>
 		<Content Include="Changelog.txt" />
 	</ItemGroup>
-	<Import Project="..\Common\Common.projitems" Label="Shared" />
+	<Import Project="..\..\Common\Common.projitems" Label="Shared" />
 </Project>
